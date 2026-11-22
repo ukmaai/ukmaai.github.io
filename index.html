@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>UKMAAI – UK Multi-Agent &amp; Agentic AI Community</title>
+<meta name="description" content="UKMAAI is the UK community for research on multi-agent systems and agentic AI: mailing list, Slack, events, symposia and a map of UK labs.">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+<style>
+  :root {
+    --ink: #14213d;
+    --ink-soft: #46506a;
+    --bg: #ffffff;
+    --bg-alt: #f4f6fa;
+    --line: #dfe4ee;
+    --accent: #0f6e84;
+    --accent-dark: #0a5263;
+    --accent-tint: #e3f2f5;
+    --max: 1040px;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    color: var(--ink);
+    background: var(--bg);
+    line-height: 1.6;
+    font-size: 17px;
+  }
+  a { color: var(--accent); }
+  a:hover { color: var(--accent-dark); }
+  .wrap { max-width: var(--max); margin: 0 auto; padding: 0 24px; }
+
+  /* Navigation */
+  header.nav {
+    position: sticky; top: 0; z-index: 10;
+    background: rgba(255,255,255,0.96);
+    border-bottom: 1px solid var(--line);
+  }
+  .nav .wrap { display: flex; align-items: center; justify-content: space-between; min-height: 60px; flex-wrap: wrap; }
+  .brand { font-weight: 700; font-size: 20px; letter-spacing: 0.04em; color: var(--ink); text-decoration: none; }
+  .nav nav { display: flex; flex-wrap: wrap; gap: 4px 22px; padding: 8px 0; }
+  .nav nav a { color: var(--ink-soft); text-decoration: none; font-size: 15px; }
+  .nav nav a:hover { color: var(--accent); }
+
+  /* Hero */
+  .hero { background: var(--ink); color: #fff; padding: 76px 0 68px; }
+  .hero .kicker { color: #9fd3de; font-size: 14px; letter-spacing: 0.14em; text-transform: uppercase; margin: 0 0 14px; }
+  .hero h1 { font-size: clamp(32px, 5vw, 50px); line-height: 1.15; margin: 0 0 18px; max-width: 18ch; }
+  .hero p.lead { font-size: 19px; color: #d5dbea; max-width: 62ch; margin: 0 0 30px; }
+  .btns { display: flex; flex-wrap: wrap; gap: 12px; }
+  .btn {
+    display: inline-block; padding: 12px 22px; border-radius: 6px;
+    font-weight: 600; text-decoration: none; font-size: 16px;
+    border: 2px solid transparent;
+  }
+  .btn.primary { background: #2aa3bd; color: #06222a; }
+  .btn.primary:hover { background: #55bdd3; color: #06222a; }
+  .btn.ghost { border-color: #6c7896; color: #fff; }
+  .btn.ghost:hover { border-color: #fff; color: #fff; }
+
+  /* Sections */
+  section { padding: 64px 0; }
+  section.alt { background: var(--bg-alt); }
+  h2 { font-size: 30px; margin: 0 0 8px; line-height: 1.2; }
+  .section-intro { color: var(--ink-soft); max-width: 68ch; margin: 0 0 30px; }
+  h3 { font-size: 21px; margin: 0 0 6px; }
+  p { margin: 0 0 14px; }
+
+  .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 22px; }
+  .card { background: #fff; border: 1px solid var(--line); border-radius: 10px; padding: 26px; }
+  section.alt .card { box-shadow: 0 1px 2px rgba(20,33,61,0.04); }
+  .card p:last-child { margin-bottom: 0; }
+  .card .btn { margin-top: 8px; background: var(--accent); color: #fff; padding: 10px 18px; font-size: 15px; }
+  .card .btn:hover { background: var(--accent-dark); color: #fff; }
+
+  /* Events */
+  .event-list { list-style: none; padding: 0; margin: 0 0 24px; }
+  .event-list li { display: grid; grid-template-columns: 150px 1fr; gap: 18px; padding: 18px 0; border-bottom: 1px solid var(--line); }
+  .event-list li:first-child { border-top: 1px solid var(--line); }
+  .event-date { font-weight: 600; color: var(--accent-dark); }
+  .event-title { font-weight: 600; }
+  .event-meta { color: var(--ink-soft); font-size: 15px; }
+  .empty { padding: 22px 24px; background: var(--accent-tint); border-radius: 8px; margin: 0 0 24px; }
+  .callout { border-left: 4px solid var(--accent); padding: 4px 0 4px 18px; max-width: 70ch; }
+
+  /* Symposia */
+  .symp-meta { color: var(--accent-dark); font-weight: 600; font-size: 15px; margin: 0 0 12px; }
+  .symp dl { margin: 14px 0 0; }
+  .symp dt { font-weight: 600; font-size: 14px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-soft); margin-top: 14px; }
+  .symp dd { margin: 4px 0 0; font-size: 16px; }
+
+  /* Map */
+  .map-frame { border: 1px solid var(--line); border-radius: 10px; overflow: hidden; background: #e9edf3; }
+  #lab-map { width: 100%; height: 540px; }
+  .map-fallback { padding: 40px 24px; text-align: center; color: var(--ink-soft); }
+  .leaflet-popup-content { font-family: inherit; font-size: 15px; line-height: 1.45; }
+  .leaflet-popup-content strong { display: block; font-size: 16px; margin-bottom: 2px; }
+  .map-note { color: var(--ink-soft); font-size: 15px; margin-top: 12px; }
+
+  /* People */
+  .people { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 18px; list-style: none; padding: 0; margin: 0; }
+  .people li { border: 1px solid var(--line); border-radius: 10px; padding: 20px 22px; background: #fff; }
+  .people .name { font-weight: 600; }
+  .people .aff { color: var(--ink-soft); font-size: 15px; }
+
+  /* Labs directory */
+  .lab-tools { display: flex; flex-wrap: wrap; gap: 12px 18px; align-items: center; margin: 0 0 22px; }
+  .lab-tools input { flex: 1 1 280px; max-width: 460px; padding: 11px 14px; font-size: 16px; border: 1px solid #b9c1d3; border-radius: 6px; font-family: inherit; color: var(--ink); background: #fff; }
+  .lab-tools input:focus { outline: 2px solid var(--accent); outline-offset: 1px; }
+  .lab-count { color: var(--ink-soft); font-size: 15px; }
+  .lab-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 16px; list-style: none; padding: 0; margin: 0; }
+  .lab { background: #fff; border: 1px solid var(--line); border-radius: 10px; padding: 20px 22px; }
+  .lab h3 { font-size: 18px; line-height: 1.3; margin: 0 0 4px; }
+  .lab h3 a { text-decoration: none; }
+  .lab h3 a:hover { text-decoration: underline; }
+  .lab .where { color: var(--ink-soft); font-size: 15px; margin: 0 0 10px; }
+  .tags { display: flex; flex-wrap: wrap; gap: 6px; margin: 0 0 4px; padding: 0; list-style: none; }
+  .tags li { background: var(--accent-tint); color: var(--accent-dark); border-radius: 999px; padding: 2px 10px; font-size: 13px; }
+  .lab details { margin-top: 10px; font-size: 15px; }
+  .lab summary, .older summary { cursor: pointer; color: var(--accent); font-weight: 600; }
+  .lab details p { margin: 8px 0 0; color: var(--ink-soft); }
+  .older { margin-top: 34px; }
+  .older summary { font-size: 17px; }
+  .older table { width: 100%; border-collapse: collapse; margin-top: 16px; font-size: 15px; background: #fff; }
+  .older th, .older td { text-align: left; vertical-align: top; padding: 10px 12px; border-bottom: 1px solid var(--line); }
+  .older th { font-size: 13px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-soft); }
+  .older .scroll { overflow-x: auto; }
+
+  footer { background: var(--ink); color: #c5cde0; padding: 34px 0; font-size: 15px; }
+  footer a { color: #9fd3de; }
+
+  @media (max-width: 560px) {
+    .event-list li { grid-template-columns: 1fr; gap: 4px; }
+    section { padding: 48px 0; }
+    .hero { padding: 54px 0 48px; }
+    #lab-map { height: 420px; }
+  }
+</style>
+</head>
+<body>
+
+<header class="nav">
+  <div class="wrap">
+    <a class="brand" href="#top">UKMAAI</a>
+    <nav aria-label="Main">
+      <a href="#about">About</a>
+      <a href="#join">Join</a>
+      <a href="#events">Events</a>
+      <a href="#symposia">Symposia</a>
+      <a href="#map">Map</a>
+      <a href="#labs">Labs</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+
+  <div class="hero">
+    <div class="wrap">
+      <p class="kicker">UKMAAI</p>
+      <h1>UK Multi-Agent &amp; Agentic AI Community</h1>
+      <p class="lead">A community for researchers and practitioners across UK universities and industry working on multi-agent systems and agentic AI. We share news, events, collaboration opportunities and jobs, and bring people together in person.</p>
+      <div class="btns">
+        <a class="btn primary" href="https://join.slack.com/t/ukmaai/shared_invite/zt-4ck066e3k-xpJyk96F38TkDMuEbg3aDg">Join the Slack</a>
+        <a class="btn ghost" href="https://www.jiscmail.ac.uk/UKMAAI">Subscribe to the mailing list</a>
+      </div>
+    </div>
+  </div>
+
+  <section id="about">
+    <div class="wrap">
+      <h2>About</h2>
+      <p class="section-intro">From a Turing interest group to an independent community.</p>
+      <div class="grid-2">
+        <div>
+          <p>UKMAAI grew out of the Multi-Agent Systems Interest Group at The Alan Turing Institute. Since 2020 the group's mailing list has connected researchers and practitioners and carried community news, events, collaboration opportunities and job postings. The group has organised two editions of the UK Multi-Agent Systems Symposium, in 2020 and 2025.</p>
+          <p>In October 2026 the group moved beyond the Institute and continues as the UK Multi-Agent &amp; Agentic AI Community. The broader name reflects the growing interest in agentic AI while keeping our roots in multi-agent systems.</p>
+        </div>
+        <div>
+          <p>We welcome anyone working on or interested in topics such as multi-agent reinforcement learning, game theory and mechanism design, negotiation and cooperation, swarm and multi-robot systems, agent-based modelling, LLM-based agents, and the safety, verification and governance of multi-agent and agentic systems.</p>
+          <p>We are grateful to The Alan Turing Institute for sponsoring both symposia and supporting the community's operations over the years.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="join" class="alt">
+    <div class="wrap">
+      <h2>Join us</h2>
+      <p class="section-intro">Two ways to stay connected. Both are free and open to everyone.</p>
+      <div class="grid-2">
+        <div class="card">
+          <h3>Slack</h3>
+          <p>Day-to-day discussion, questions, paper sharing and informal announcements.</p>
+          <a class="btn" href="https://join.slack.com/t/ukmaai/shared_invite/zt-4ck066e3k-xpJyk96F38TkDMuEbg3aDg">Join ukmaai.slack.com</a>
+        </div>
+        <div class="card">
+          <h3>Mailing list</h3>
+          <p>Announcements of events, calls for papers, jobs and community news, hosted on JiscMail. It replaces the former multi-agent@turing.ac.uk list.</p>
+          <a class="btn" href="https://www.jiscmail.ac.uk/UKMAAI">Subscribe on JiscMail</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="events">
+    <div class="wrap">
+      <h2>Events</h2>
+      <p class="section-intro">Talks, workshops, meetups and other activities from across the community.</p>
+
+      <!--
+        HOW TO ADD AN EVENT
+        Add an entry to the "events" list in the <script> at the bottom of this file.
+        Events whose date has passed are hidden automatically.
+      -->
+      <ul class="event-list" id="event-list"></ul>
+      <p class="empty" id="no-events">No upcoming events are listed yet. Further details about upcoming activities will follow.</p>
+
+      <div class="callout">
+        <h3>Add your event</h3>
+        <p>Running a seminar, workshop, reading group or meetup that the community would enjoy? Tell us in the <a href="https://join.slack.com/t/ukmaai/shared_invite/zt-4ck066e3k-xpJyk96F38TkDMuEbg3aDg">Slack</a> or by <a href="mailto:ukmaai-request@jiscmail.ac.uk">email</a> and we will add it to this page.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="symposia" class="alt">
+    <div class="wrap">
+      <h2>UK Multi-Agent Systems Symposium</h2>
+      <p class="section-intro">Our symposium brings together UK-based university and industry labs with a significant focus on multi-agent systems.</p>
+      <div class="grid-2">
+
+        <article class="card symp">
+          <h3>UK-MAS 2025</h3>
+          <p class="symp-meta">19 March 2025 · King's College London, Strand</p>
+          <p>An in-person symposium hosted by The Alan Turing Institute in collaboration with the King's Institute for Artificial Intelligence, with keynotes, panels, talks, open discussions and poster sessions.</p>
+          <dl>
+            <dt>Keynote</dt>
+            <dd>Iain Couzin (Max Planck Institute of Animal Behavior), "The Geometry of Multi-Agent Decision Making"</dd>
+            <dt>Invited speakers</dt>
+            <dd>Mirco Musolesi (UCL), Joel Leibo (Google DeepMind), Chris Hicks (The Alan Turing Institute), Subramanian Ramamoorthy (University of Edinburgh), Gareth Siret (Ocado Technology), Richard Everson (University of Exeter)</dd>
+            <dt>Programme highlights</dt>
+            <dd>Multi-agent research in the age of foundation models; a toolbox session on open-source libraries including EPyMARL, VMAS, BenchMARL, JaxMARL, Melting Pot, Concordia, Mava, Jumanji and OpenSpiel; applications in warehouse automation, cyber security, assistive autonomy and air traffic control.</dd>
+            <dt>Organisers</dt>
+            <dd>Stefano Albrecht, Lukas Schäfer, Rahul Savani, Edmond Awad, Matteo Bettini, Amanda Prorok, Yali Du, Richard Willis and Ruth Drysdale</dd>
+          </dl>
+          <p style="margin-top:16px"><a href="https://www.turing.ac.uk/events/uk-multi-agent-systems-symposium-2025-uk-mas">Event page</a></p>
+        </article>
+
+        <article class="card symp">
+          <h3>UK-MAS 2020</h3>
+          <p class="symp-meta">24 February 2020 · The Alan Turing Institute, London</p>
+          <p>The first symposium, a free cross-disciplinary workshop at the British Library with talks from academia and industry, discussion sessions and networking.</p>
+          <dl>
+            <dt>Topics</dt>
+            <dd>Negotiation, game theory, swarm robotics, autonomous driving and verification, among others.</dd>
+            <dt>Outcomes</dt>
+            <dd>The map of UK multi-agent systems labs and the community mailing list both started here.</dd>
+            <dt>Organisers</dt>
+            <dd>Led by Stefano Albrecht, hosted by the AI Programme at The Alan Turing Institute</dd>
+          </dl>
+          <p style="margin-top:16px"><a href="https://www.turing.ac.uk/events/uk-multi-agent-systems-symposium">Event page</a></p>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <section id="map">
+    <div class="wrap">
+      <h2>Map of UK multi-agent systems labs</h2>
+      <p class="section-intro">University and industry research labs in the UK with a significant focus on multi-agent systems. The map was first created after the 2020 symposium and updated for the 2025 edition.</p>
+      <div class="map-frame">
+        <div id="lab-map" role="region" aria-label="Interactive map of UK multi-agent systems labs">
+          <p class="map-fallback" id="map-fallback">The map could not be loaded. You can still browse the <a href="#labs">labs directory</a> below.</p>
+        </div>
+      </div>
+      <p class="map-note">Click a marker for details. The full list is in the <a href="#labs">labs directory</a> below. The map is drawn from the same data, so adding a lab there adds it here.</p>
+    </div>
+  </section>
+
+  <section id="labs" class="alt">
+    <div class="wrap">
+      <h2>Labs directory</h2>
+      <p class="section-intro">Research groups from the map, as submitted by the labs themselves for the 2025 symposium. To add or update your lab, fill in <a href="https://forms.gle/mYP1QK1KhpDjCiso9">this form</a> or <a href="mailto:ukmaai-request@jiscmail.ac.uk">email us</a>.</p>
+      <div class="lab-tools">
+        <input type="search" id="lab-search" placeholder="Search by lab, university, city or topic" aria-label="Search labs">
+        <span class="lab-count" id="lab-count" aria-live="polite"></span>
+      </div>
+      <ul class="lab-list" id="lab-list"></ul>
+
+      <details class="older">
+        <summary>Entries from the 2020 map (<span id="old-count"></span>)</summary>
+        <p class="map-note">These entries were collected at the first symposium in 2020 and have not been updated since, so contacts and links may be out of date.</p>
+        <div class="scroll">
+          <table>
+            <thead><tr><th>Organisation or lab</th><th>Contact</th><th>Topics</th></tr></thead>
+            <tbody id="old-list"></tbody>
+          </table>
+        </div>
+      </details>
+    </div>
+  </section>
+
+  <section id="contact">
+    <div class="wrap">
+      <h2>Organisers and contact</h2>
+      <p class="section-intro">UKMAAI is run by volunteers. Get in touch if you would like to help organise events, suggest speakers or share opportunities.</p>
+      <ul class="people">
+        <li><div class="name">Yali Du</div><div class="aff">King's College London</div></li>
+        <li><div class="name">Rahul Savani</div><div class="aff">University of Liverpool</div></li>
+        <li><div class="name">Stefano Albrecht</div><div class="aff">&nbsp;</div></li>
+      </ul>
+      <p style="margin-top:26px">Email: <a href="mailto:ukmaai-request@jiscmail.ac.uk">ukmaai-request@jiscmail.ac.uk</a></p>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    UK Multi-Agent &amp; Agentic AI Community (UKMAAI) ·
+    <a href="https://join.slack.com/t/ukmaai/shared_invite/zt-4ck066e3k-xpJyk96F38TkDMuEbg3aDg">Slack</a> ·
+    <a href="https://www.jiscmail.ac.uk/UKMAAI">Mailing list</a>
+  </div>
+</footer>
+
+<script>
+  // ---------------------------------------------------------------
+  // UPCOMING EVENTS
+  // To add an event, copy the example below into the list, remove the
+  // leading "//" and fill it in. Use the date format YYYY-MM-DD.
+  // Events whose date has passed are hidden automatically.
+  // ---------------------------------------------------------------
+  const events = [
+    // {
+    //   date: "2027-03-15",
+    //   title: "Example seminar: Cooperative multi-agent learning",
+    //   where: "King's College London and online",
+    //   link: "https://example.org/event"
+    // },
+  ];
+
+  (function () {
+    const list = document.getElementById("event-list");
+    const empty = document.getElementById("no-events");
+    const today = new Date(); today.setHours(0, 0, 0, 0);
+    const upcoming = events
+      .filter(function (e) { return new Date(e.date + "T00:00:00") >= today; })
+      .sort(function (a, b) { return a.date < b.date ? -1 : 1; });
+    if (!upcoming.length) { list.style.display = "none"; return; }
+    empty.style.display = "none";
+    upcoming.forEach(function (e) {
+      const li = document.createElement("li");
+      const d = document.createElement("div");
+      d.className = "event-date";
+      d.textContent = new Date(e.date + "T00:00:00").toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" });
+      const body = document.createElement("div");
+      const t = document.createElement("div");
+      t.className = "event-title";
+      if (e.link) {
+        const a = document.createElement("a");
+        a.href = e.link; a.textContent = e.title;
+        t.appendChild(a);
+      } else { t.textContent = e.title; }
+      body.appendChild(t);
+      if (e.where) {
+        const m = document.createElement("div");
+        m.className = "event-meta"; m.textContent = e.where;
+        body.appendChild(m);
+      }
+      li.appendChild(d); li.appendChild(body);
+      list.appendChild(li);
+    });
+  })();
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<script src="labs.js"></script>
+<script>
+  // Labs directory: data lives in labs.js
+  (function () {
+    if (typeof labs === "undefined") return;
+    const list = document.getElementById("lab-list");
+    const count = document.getElementById("lab-count");
+    const search = document.getElementById("lab-search");
+
+    function el(tag, cls, text) {
+      const e = document.createElement(tag);
+      if (cls) e.className = cls;
+      if (text) e.textContent = text;
+      return e;
+    }
+
+    function render(q) {
+      q = (q || "").trim().toLowerCase();
+      list.innerHTML = "";
+      const shown = labs.filter(function (l) {
+        if (!q) return true;
+        return [l.name, l.org, l.city, l.tags.join(" "), l.desc].join(" ").toLowerCase().indexOf(q) !== -1;
+      });
+      shown.forEach(function (l) {
+        const li = el("li", "lab");
+        const h = el("h3");
+        if (l.url) { const a = el("a", "", l.name); a.href = l.url; h.appendChild(a); }
+        else { h.textContent = l.name; }
+        li.appendChild(h);
+        li.appendChild(el("p", "where", l.org + " · " + l.city));
+        if (l.tags.length) {
+          const ul = el("ul", "tags");
+          l.tags.forEach(function (t) { ul.appendChild(el("li", "", t)); });
+          li.appendChild(ul);
+        }
+        if (l.desc) {
+          const d = el("details");
+          d.appendChild(el("summary", "", "About"));
+          d.appendChild(el("p", "", l.desc));
+          li.appendChild(d);
+        }
+        list.appendChild(li);
+      });
+      count.textContent = shown.length === labs.length
+        ? labs.length + " labs"
+        : shown.length + " of " + labs.length + " labs";
+    }
+    search.addEventListener("input", function () { render(search.value); });
+    render("");
+
+    const old = document.getElementById("old-list");
+    document.getElementById("old-count").textContent = labs2020.length;
+    labs2020.forEach(function (l) {
+      const tr = el("tr");
+      const td1 = el("td");
+      if (l.url) { const a = el("a", "", l.name); a.href = l.url; td1.appendChild(a); }
+      else { td1.textContent = l.name; }
+      tr.appendChild(td1);
+      tr.appendChild(el("td", "", l.contact));
+      tr.appendChild(el("td", "", l.keywords));
+      old.appendChild(tr);
+    });
+  })();
+</script>
+<script>
+  // Map: markers come from labs.js (lat / lon of each lab)
+  (function () {
+    if (typeof L === "undefined" || typeof labs === "undefined") return;
+    const fb = document.getElementById("map-fallback");
+    if (fb) fb.remove();
+    const map = L.map("lab-map", { scrollWheelZoom: false }).setView([54.3, -2.9], 6);
+    L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
+      maxZoom: 18,
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(map);
+    const pts = [];
+    labs.forEach(function (l) {
+      if (typeof l.lat !== "number" || typeof l.lon !== "number") return;
+      const box = document.createElement("div");
+      const name = document.createElement("strong");
+      if (l.url) { const a = document.createElement("a"); a.href = l.url; a.textContent = l.name; name.appendChild(a); }
+      else { name.textContent = l.name; }
+      box.appendChild(name);
+      box.appendChild(document.createTextNode(l.org + " · " + l.city));
+      L.circleMarker([l.lat, l.lon], { radius: 8, color: "#0a5263", weight: 2, fillColor: "#2aa3bd", fillOpacity: 0.85 })
+        .bindPopup(box)
+        .addTo(map);
+      pts.push([l.lat, l.lon]);
+    });
+    if (pts.length) map.fitBounds(pts, { padding: [30, 30] });
+    map.on("click", function () { map.scrollWheelZoom.enable(); });
+  })();
+</script>
+</body>
+</html>
