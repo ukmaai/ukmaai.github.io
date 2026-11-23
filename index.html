@@ -20,7 +20,7 @@
     --max: 1040px;
   }
   * { box-sizing: border-box; }
-  html { scroll-behavior: smooth; }
+  html { scroll-behavior: smooth; scroll-padding-top: 76px; }
   body {
     margin: 0;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
@@ -132,6 +132,37 @@
   .older th { font-size: 13px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-soft); }
   .older .scroll { overflow-x: auto; }
 
+  /* Labs overview: stat tiles + bar lists */
+  .lab-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin: 0 0 22px; }
+  .stat { background: #fff; border: 1px solid var(--line); border-radius: 10px; padding: 18px 22px; }
+  .stat .num { font-size: 34px; font-weight: 700; line-height: 1.1; color: var(--ink); font-variant-numeric: tabular-nums; }
+  .stat .lbl { color: var(--ink-soft); font-size: 15px; margin-top: 4px; }
+  .lab-charts { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 16px; margin: 0 0 30px; }
+  .chart-card { background: #fff; border: 1px solid var(--line); border-radius: 10px; padding: 20px 22px 14px; }
+  .chart-card h3 { font-size: 17px; margin: 0 0 2px; }
+  .chart-card .sub { color: var(--ink-soft); font-size: 14px; margin: 0 0 14px; }
+  .bars { list-style: none; margin: 0; padding: 0; }
+  .bars li { margin: 0; }
+  .bar-row { display: grid; grid-template-columns: minmax(120px, 46%) 1fr; align-items: center; gap: 12px; width: 100%; padding: 4px 6px; margin: 0 -6px; border: 0; border-radius: 6px; background: none; font: inherit; color: inherit; text-align: left; cursor: pointer; }
+  .bar-row:hover, .bar-row:focus-visible { background: #f1f5f8; outline: none; }
+  .bar-row:focus-visible { box-shadow: 0 0 0 2px var(--accent); }
+  .bar-name { font-size: 14px; color: var(--ink); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .bar-track { display: flex; align-items: center; gap: 8px; min-width: 0; }
+  .bar-fill { height: 16px; min-width: 3px; background: #0b87a3; border-radius: 0 4px 4px 0; transition: opacity .15s; }
+  .bar-row:hover .bar-fill { background: #097590; }
+  .bar-val { font-size: 13px; color: var(--ink-soft); font-variant-numeric: tabular-nums; }
+  .bars.has-active .bar-row:not(.active) .bar-fill { opacity: .3; }
+  .bar-row.active .bar-name { font-weight: 600; }
+  .chart-card .more { background: none; border: 0; padding: 6px 0 0; font: inherit; font-size: 14px; color: var(--accent); cursor: pointer; }
+  .chart-card .more:hover { text-decoration: underline; }
+  .viz-tip { position: fixed; z-index: 50; pointer-events: none; background: var(--ink); color: #fff; padding: 7px 10px; border-radius: 6px; font-size: 13px; line-height: 1.35; box-shadow: 0 4px 14px rgba(11,33,73,.18); opacity: 0; transition: opacity .1s; }
+  .viz-tip strong { display: block; font-size: 15px; }
+  .active-filter { display: inline-flex; align-items: center; gap: 8px; background: var(--accent-tint); color: var(--accent-dark); border-radius: 999px; padding: 6px 8px 6px 14px; font-size: 14px; }
+  .active-filter[hidden] { display: none; }
+  .active-filter button { border: 0; background: #fff; color: var(--accent-dark); border-radius: 999px; width: 22px; height: 22px; line-height: 20px; font-size: 15px; cursor: pointer; padding: 0; }
+  .tags li.tag-btn { cursor: pointer; }
+  .tags li.tag-btn:hover { background: #c9e6ec; }
+
   footer { background: var(--ink); color: #c5cde0; padding: 34px 0; font-size: 15px; }
   footer a { color: #9fd3de; }
 
@@ -140,6 +171,11 @@
     section { padding: 48px 0; }
     .hero { padding: 54px 0 48px; }
     #lab-map { height: 420px; }
+    .lab-stats { gap: 10px; }
+    .stat { padding: 14px 14px; }
+    .stat .num { font-size: 26px; }
+    .bar-name { white-space: normal; line-height: 1.25; }
+    .bar-row { grid-template-columns: 44% 1fr; }
   }
 </style>
 </head>
@@ -290,8 +326,24 @@
     <div class="wrap">
       <h2>Labs directory</h2>
       <p class="section-intro">Research groups from the map, as submitted by the labs themselves for the 2025 symposium. To add or update your lab, fill in <a href="https://docs.google.com/forms/d/e/1FAIpQLSfira9c04TGu0-YOtr6WIJ6lGXMMPZA-dYH-P18fDPbT3eDJQ/viewform">this form</a>.</p>
+      <div class="lab-stats" id="lab-stats"></div>
+      <div class="lab-charts">
+        <div class="chart-card">
+          <h3>Most common research topics</h3>
+          <p class="sub">Number of labs tagging each topic. Click a bar to filter the list below.</p>
+          <ul class="bars" id="topic-bars"></ul>
+          <button type="button" class="more" id="topic-more"></button>
+        </div>
+        <div class="chart-card">
+          <h3>Where the labs are</h3>
+          <p class="sub">Number of labs in each city. Click a bar to filter the list below.</p>
+          <ul class="bars" id="city-bars"></ul>
+          <button type="button" class="more" id="city-more"></button>
+        </div>
+      </div>
       <div class="lab-tools">
         <input type="search" id="lab-search" placeholder="Search by lab, university, city or topic" aria-label="Search labs">
+        <span class="active-filter" id="active-filter" hidden><span id="active-filter-text"></span><button type="button" id="clear-filter" aria-label="Clear filter">&times;</button></span>
         <span class="lab-count" id="lab-count" aria-live="polite"></span>
       </div>
       <ul class="lab-list" id="lab-list"></ul>
@@ -390,18 +442,107 @@
     const list = document.getElementById("lab-list");
     const count = document.getElementById("lab-count");
     const search = document.getElementById("lab-search");
+    const pill = document.getElementById("active-filter");
+    const pillText = document.getElementById("active-filter-text");
+    let filter = null; // {kind: "topic"|"city", value: "..."}
 
     function el(tag, cls, text) {
       const e = document.createElement(tag);
       if (cls) e.className = cls;
-      if (text) e.textContent = text;
+      if (text !== undefined) e.textContent = text;
       return e;
     }
 
-    function render(q) {
-      q = (q || "").trim().toLowerCase();
+    // ---- headline numbers ----
+    const orgs = new Set(labs.map(function (l) { return l.org; }));
+    const cities = new Set(labs.map(function (l) { return l.city; }));
+    const stats = document.getElementById("lab-stats");
+    [[labs.length, "labs"], [orgs.size, "organisations"], [cities.size, "cities"]].forEach(function (s) {
+      const d = el("div", "stat");
+      d.appendChild(el("div", "num", String(s[0])));
+      d.appendChild(el("div", "lbl", s[1]));
+      stats.appendChild(d);
+    });
+
+    // ---- counts ----
+    function tally(getter) {
+      const m = new Map();
+      labs.forEach(function (l) { getter(l).forEach(function (k) { m.set(k, (m.get(k) || 0) + 1); }); });
+      return Array.from(m.entries()).sort(function (a, b) { return b[1] - a[1] || a[0].localeCompare(b[0]); });
+    }
+    const topicCounts = tally(function (l) { return l.tags; }).filter(function (e) { return e[1] >= 2; });
+    const cityCounts = tally(function (l) { return [l.city]; });
+
+    // ---- tooltip ----
+    const tip = el("div", "viz-tip"); tip.setAttribute("role", "presentation"); document.body.appendChild(tip);
+    function showTip(e, name, n) {
+      tip.innerHTML = "";
+      tip.appendChild(el("strong", "", n + (n === 1 ? " lab" : " labs")));
+      tip.appendChild(el("span", "", name + " · " + Math.round(100 * n / labs.length) + "% of labs"));
+      let x, y;
+      if (e.clientX !== undefined && e.type !== "focus") { x = e.clientX + 14; y = e.clientY + 14; }
+      else { const r = e.currentTarget.getBoundingClientRect(); x = r.left + 20; y = r.bottom + 6; }
+      tip.style.left = Math.min(x, window.innerWidth - 240) + "px";
+      tip.style.top = y + "px";
+      tip.style.opacity = 1;
+    }
+    function hideTip() { tip.style.opacity = 0; }
+
+    // ---- bar lists ----
+    function barList(ulId, moreId, data, kind, initial) {
+      const ul = document.getElementById(ulId);
+      const more = document.getElementById(moreId);
+      const max = data.length ? data[0][1] : 1;
+      let expanded = false;
+      function draw() {
+        ul.innerHTML = "";
+        const rows = expanded ? data : data.slice(0, initial);
+        rows.forEach(function (d) {
+          const li = el("li");
+          const b = el("button", "bar-row");
+          b.type = "button";
+          b.setAttribute("aria-label", d[0] + ": " + d[1] + " labs. Show these labs.");
+          if (filter && filter.kind === kind && filter.value === d[0]) { b.classList.add("active"); b.setAttribute("aria-pressed", "true"); }
+          b.appendChild(el("span", "bar-name", d[0]));
+          const track = el("span", "bar-track");
+          const fill = el("span", "bar-fill");
+          fill.style.width = (100 * d[1] / max * 0.82) + "%";
+          track.appendChild(fill);
+          track.appendChild(el("span", "bar-val", String(d[1])));
+          b.appendChild(track);
+          b.addEventListener("pointermove", function (e) { showTip(e, d[0], d[1]); });
+          b.addEventListener("focus", function (e) { showTip(e, d[0], d[1]); });
+          b.addEventListener("pointerleave", hideTip);
+          b.addEventListener("blur", hideTip);
+          b.addEventListener("click", function () { setFilter(kind, d[0]); });
+          li.appendChild(b); ul.appendChild(li);
+        });
+        ul.classList.toggle("has-active", !!(filter && filter.kind === kind));
+        if (data.length > initial) {
+          more.hidden = false;
+          more.textContent = expanded ? "Show fewer" : "Show all " + data.length;
+        } else { more.hidden = true; }
+      }
+      more.addEventListener("click", function () { expanded = !expanded; draw(); });
+      return draw;
+    }
+    const drawTopics = barList("topic-bars", "topic-more", topicCounts, "topic", 10);
+    const drawCities = barList("city-bars", "city-more", cityCounts, "city", 10);
+
+    function setFilter(kind, value) {
+      if (filter && filter.kind === kind && filter.value === value) filter = null;
+      else filter = { kind: kind, value: value };
+      update(true);
+    }
+    document.getElementById("clear-filter").addEventListener("click", function () { filter = null; update(false); });
+
+    // ---- directory ----
+    function render() {
+      const q = search.value.trim().toLowerCase();
       list.innerHTML = "";
       const shown = labs.filter(function (l) {
+        if (filter && filter.kind === "topic" && l.tags.indexOf(filter.value) === -1) return false;
+        if (filter && filter.kind === "city" && l.city !== filter.value) return false;
         if (!q) return true;
         return [l.name, l.org, l.city, l.tags.join(" "), l.desc].join(" ").toLowerCase().indexOf(q) !== -1;
       });
@@ -414,7 +555,14 @@
         li.appendChild(el("p", "where", l.org + " · " + l.city));
         if (l.tags.length) {
           const ul = el("ul", "tags");
-          l.tags.forEach(function (t) { ul.appendChild(el("li", "", t)); });
+          l.tags.forEach(function (t) {
+            const tg = el("li", "tag-btn", t);
+            tg.tabIndex = 0; tg.setAttribute("role", "button");
+            tg.title = "Show labs tagged " + t;
+            tg.addEventListener("click", function () { setFilter("topic", t); });
+            tg.addEventListener("keydown", function (e) { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); setFilter("topic", t); } });
+            ul.appendChild(tg);
+          });
           li.appendChild(ul);
         }
         if (l.desc) {
@@ -425,13 +573,18 @@
         }
         list.appendChild(li);
       });
-      count.textContent = shown.length === labs.length
-        ? labs.length + " labs"
-        : shown.length + " of " + labs.length + " labs";
+      count.textContent = shown.length === labs.length ? labs.length + " labs" : shown.length + " of " + labs.length + " labs";
+      if (filter) { pill.hidden = false; pillText.textContent = (filter.kind === "topic" ? "Topic: " : "City: ") + filter.value; }
+      else { pill.hidden = true; }
     }
-    search.addEventListener("input", function () { render(search.value); });
-    render("");
+    function update(scroll) {
+      drawTopics(); drawCities(); render();
+      if (scroll) document.querySelector(".lab-tools").scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+    search.addEventListener("input", render);
+    update(false);
 
+    // ---- 2020 entries ----
     const old = document.getElementById("old-list");
     document.getElementById("old-count").textContent = labs2020.length;
     labs2020.forEach(function (l) {
