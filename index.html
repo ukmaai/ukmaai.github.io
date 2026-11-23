@@ -5,18 +5,18 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>UKMAAI – UK Multi-Agent &amp; Agentic AI Community</title>
 <meta name="description" content="UKMAAI is the UK community for research on multi-agent systems and agentic AI: mailing list, Slack, events, symposia and a map of UK labs.">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Cg fill='none' stroke='%230f6e84' stroke-width='2.5' stroke-linecap='round'%3E%3Cpath d='M24 8 8 38h32z'/%3E%3Cpath d='M24 27V8M24 27 8 38M24 27l16 11'/%3E%3C/g%3E%3Cg fill='%2314213d'%3E%3Ccircle cx='24' cy='8' r='5'/%3E%3Ccircle cx='8' cy='38' r='5'/%3E%3Ccircle cx='40' cy='38' r='5'/%3E%3C/g%3E%3Ccircle cx='24' cy='27' r='6' fill='%232aa3bd'/%3E%3C/svg%3E">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='120 83 510 510'%3E%3Cpath d='M431 122A223 223 0 0 1 541 189' fill='none' stroke='%23CA0C22' stroke-width='31'/%3E%3Cpath d='M591 284A223 223 0 0 1 591 392' fill='none' stroke='%23022753' stroke-width='31'/%3E%3Cpath d='M541 487A223 223 0 0 1 440 551' fill='none' stroke='%23017085' stroke-width='31'/%3E%3Cpath d='M310 551A223 223 0 0 1 209 487' fill='none' stroke='%23CA0C22' stroke-width='31'/%3E%3Cpath d='M159 392A223 223 0 0 1 159 284' fill='none' stroke='%23017085' stroke-width='31'/%3E%3Cpath d='M209 189A223 223 0 0 1 319 122' fill='none' stroke='%23022753' stroke-width='31'/%3E%3Cpath d='M375 265L375 190' stroke='%23022753' stroke-width='17'/%3E%3Cpath d='M439 304L512 265' stroke='%23017085' stroke-width='17'/%3E%3Cpath d='M439 372L512 411' stroke='%23022753' stroke-width='17'/%3E%3Cpath d='M375 411L375 474' stroke='%23CA0C22' stroke-width='17'/%3E%3Cpath d='M311 372L238 411' stroke='%23022753' stroke-width='17'/%3E%3Cpath d='M311 304L238 265' stroke='%23CA0C22' stroke-width='17'/%3E%3Ccircle cx='375' cy='136' r='45' fill='%23022753'/%3E%3Ccircle cx='557' cy='241' r='42' fill='%23017085'/%3E%3Ccircle cx='557' cy='435' r='42' fill='%23022753'/%3E%3Ccircle cx='375' cy='537' r='54' fill='%23CA0C22'/%3E%3Ccircle cx='193' cy='435' r='42' fill='%23022753'/%3E%3Ccircle cx='193' cy='241' r='42' fill='%23CA0C22'/%3E%3Ccircle cx='375' cy='338' r='64' fill='%23001B48'/%3E%3C/svg%3E">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
 <style>
   :root {
-    --ink: #14213d;
+    --ink: #0b2149;
     --ink-soft: #46506a;
     --bg: #ffffff;
     --bg-alt: #f4f6fa;
     --line: #dfe4ee;
-    --accent: #0f6e84;
-    --accent-dark: #0a5263;
-    --accent-tint: #e3f2f5;
+    --accent: #017085;
+    --accent-dark: #01586a;
+    --accent-tint: #e1f1f4;
     --max: 1040px;
   }
   * { box-sizing: border-box; }
@@ -41,8 +41,9 @@
   }
   .nav .wrap { display: flex; align-items: center; justify-content: space-between; min-height: 60px; flex-wrap: wrap; }
   .brand { display: inline-flex; align-items: center; gap: 10px; font-weight: 700; font-size: 20px; letter-spacing: 0.04em; color: var(--ink); text-decoration: none; }
-  .logo { width: 32px; height: 32px; flex: none; }
-  .hero-logo { width: 72px; height: 72px; display: block; margin: 0 0 22px; }
+  .logo { width: 36px; height: 36px; flex: none; }
+  .hero-logo { display: inline-flex; align-items: center; justify-content: center; width: 88px; height: 88px; background: #fff; border-radius: 20px; margin: 0 0 22px; }
+  .hero-logo svg { width: 70px; height: 70px; }
   .nav nav { display: flex; flex-wrap: wrap; gap: 4px 22px; padding: 8px 0; }
   .nav nav a { color: var(--ink-soft); text-decoration: none; font-size: 15px; }
   .nav nav a:hover { color: var(--accent); }
@@ -58,8 +59,8 @@
     font-weight: 600; text-decoration: none; font-size: 16px;
     border: 2px solid transparent;
   }
-  .btn.primary { background: #2aa3bd; color: #06222a; }
-  .btn.primary:hover { background: #55bdd3; color: #06222a; }
+  .btn.primary { background: #1a9cb5; color: #04202a; }
+  .btn.primary:hover { background: #48b6cb; color: #04202a; }
   .btn.ghost { border-color: #6c7896; color: #fff; }
   .btn.ghost:hover { border-color: #fff; color: #fff; }
 
@@ -146,7 +147,7 @@
 
 <header class="nav">
   <div class="wrap">
-    <a class="brand" href="#top"><svg class="logo" viewBox="0 0 48 48" aria-hidden="true" focusable="false"><g fill="none" stroke="#0f6e84" stroke-width="2.5" stroke-linecap="round"><path d="M24 8 8 38h32z"/><path d="M24 27V8M24 27 8 38M24 27l16 11"/></g><g fill="#14213d"><circle cx="24" cy="8" r="5"/><circle cx="8" cy="38" r="5"/><circle cx="40" cy="38" r="5"/></g><circle cx="24" cy="27" r="6" fill="#2aa3bd"/></svg><span>UKMAAI</span></a>
+    <a class="brand" href="#top"><svg class="logo" viewBox="120 83 510 510" aria-hidden="true" focusable="false"><path d="M431 122A223 223 0 0 1 541 189" fill="none" stroke="#CA0C22" stroke-width="31"/><path d="M591 284A223 223 0 0 1 591 392" fill="none" stroke="#022753" stroke-width="31"/><path d="M541 487A223 223 0 0 1 440 551" fill="none" stroke="#017085" stroke-width="31"/><path d="M310 551A223 223 0 0 1 209 487" fill="none" stroke="#CA0C22" stroke-width="31"/><path d="M159 392A223 223 0 0 1 159 284" fill="none" stroke="#017085" stroke-width="31"/><path d="M209 189A223 223 0 0 1 319 122" fill="none" stroke="#022753" stroke-width="31"/><path d="M375 265L375 190" stroke="#022753" stroke-width="17"/><path d="M439 304L512 265" stroke="#017085" stroke-width="17"/><path d="M439 372L512 411" stroke="#022753" stroke-width="17"/><path d="M375 411L375 474" stroke="#CA0C22" stroke-width="17"/><path d="M311 372L238 411" stroke="#022753" stroke-width="17"/><path d="M311 304L238 265" stroke="#CA0C22" stroke-width="17"/><circle cx="375" cy="136" r="45" fill="#022753"/><circle cx="557" cy="241" r="42" fill="#017085"/><circle cx="557" cy="435" r="42" fill="#022753"/><circle cx="375" cy="537" r="54" fill="#CA0C22"/><circle cx="193" cy="435" r="42" fill="#022753"/><circle cx="193" cy="241" r="42" fill="#CA0C22"/><circle cx="375" cy="338" r="64" fill="#001B48"/></svg><span>UKMAAI</span></a>
     <nav aria-label="Main">
       <a href="#about">About</a>
       <a href="#join">Join</a>
@@ -163,7 +164,7 @@
 
   <div class="hero">
     <div class="wrap">
-      <svg class="hero-logo" viewBox="0 0 48 48" aria-hidden="true" focusable="false"><g fill="none" stroke="#6fb9c9" stroke-width="2.5" stroke-linecap="round"><path d="M24 8 8 38h32z"/><path d="M24 27V8M24 27 8 38M24 27l16 11"/></g><g fill="#ffffff"><circle cx="24" cy="8" r="5"/><circle cx="8" cy="38" r="5"/><circle cx="40" cy="38" r="5"/></g><circle cx="24" cy="27" r="6" fill="#2aa3bd"/></svg>
+      <span class="hero-logo"><svg viewBox="120 83 510 510" aria-hidden="true" focusable="false"><path d="M431 122A223 223 0 0 1 541 189" fill="none" stroke="#CA0C22" stroke-width="31"/><path d="M591 284A223 223 0 0 1 591 392" fill="none" stroke="#022753" stroke-width="31"/><path d="M541 487A223 223 0 0 1 440 551" fill="none" stroke="#017085" stroke-width="31"/><path d="M310 551A223 223 0 0 1 209 487" fill="none" stroke="#CA0C22" stroke-width="31"/><path d="M159 392A223 223 0 0 1 159 284" fill="none" stroke="#017085" stroke-width="31"/><path d="M209 189A223 223 0 0 1 319 122" fill="none" stroke="#022753" stroke-width="31"/><path d="M375 265L375 190" stroke="#022753" stroke-width="17"/><path d="M439 304L512 265" stroke="#017085" stroke-width="17"/><path d="M439 372L512 411" stroke="#022753" stroke-width="17"/><path d="M375 411L375 474" stroke="#CA0C22" stroke-width="17"/><path d="M311 372L238 411" stroke="#022753" stroke-width="17"/><path d="M311 304L238 265" stroke="#CA0C22" stroke-width="17"/><circle cx="375" cy="136" r="45" fill="#022753"/><circle cx="557" cy="241" r="42" fill="#017085"/><circle cx="557" cy="435" r="42" fill="#022753"/><circle cx="375" cy="537" r="54" fill="#CA0C22"/><circle cx="193" cy="435" r="42" fill="#022753"/><circle cx="193" cy="241" r="42" fill="#CA0C22"/><circle cx="375" cy="338" r="64" fill="#001B48"/></svg></span>
       <p class="kicker">UKMAAI</p>
       <h1>UK Multi-Agent &amp; Agentic AI Community</h1>
       <p class="lead">A community for researchers and practitioners across UK universities and industry working on multi-agent systems and agentic AI. We share news, events, collaboration opportunities and jobs, and bring people together in person.</p>
