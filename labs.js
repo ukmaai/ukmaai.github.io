@@ -6,6 +6,23 @@
 // `labs` holds the current directory (entries collected for the 2025 symposium).
 //   lat / lon place the lab on the map. To find them, right-click the
 //   location in Google Maps or OpenStreetMap and copy the coordinates.
+// `tags` use the same research topics as the lab form:
+//   - Multi-agent reinforcement learning
+//   - LLM-based agents and agentic AI
+//   - Agent evaluation and benchmarks
+//   - Cooperative AI and coordination
+//   - Game theory, mechanism design and markets
+//   - Negotiation, argumentation and agent communication
+//   - Human-agent interaction and human-centred AI
+//   - AI safety, alignment and trustworthiness
+//   - Formal methods and verification
+//   - Governance, policy and ethics
+//   - Multi-robot systems and swarms
+//   - Agent-based modelling and simulation
+//   - Planning and reasoning
+//   - Applications
+// `areas` (optional) lists application domains such as Energy or Transport;
+//   they appear on the lab card but not in the topic chart.
 // `labs2020` holds entries from the original 2020 map that have not been updated since.
 
 const labs = [
@@ -17,15 +34,14 @@ const labs = [
     "lat": 52.47224,
     "lon": -1.84606,
     "tags": [
-      "Machine learning",
-      "Game theory",
-      "Reinforcement learning",
-      "LLMs/Foundation models",
-      "Competition",
-      "Markets",
-      "Energy",
-      "Agent-based Modelling",
-      "Mechanism Design"
+      "Multi-agent reinforcement learning",
+      "LLM-based agents and agentic AI",
+      "Game theory, mechanism design and markets",
+      "Agent-based modelling and simulation",
+      "Applications"
+    ],
+    "areas": [
+      "Energy"
     ],
     "desc": "ACAIRA is a research institute at Aston University focused on developing cutting-edge AI solutions for real-world challenges. A key area of its research is MAS, with several active projects in energy trading, marketing, mechanism design for autonomous driving, traffic management, and more. The group explores how intelligent agents can collaborate, negotiate, and make decisions in complex environments, aiming to create more efficient and adaptive systems. Research at ACAIRA integrates game theory, reinforcement learning, and optimisation techniques to enhance MAS applications. The institute works closely with industry partners to ensure its research has real-world impact."
   },
@@ -37,9 +53,8 @@ const labs = [
     "lat": 52.41952,
     "lon": -1.53092,
     "tags": [
-      "Machine learning",
-      "Reinforcement learning",
-      "Simulation"
+      "Multi-agent reinforcement learning",
+      "Agent-based modelling and simulation"
     ],
     "desc": ""
   },
@@ -51,13 +66,11 @@ const labs = [
     "lat": 51.53768,
     "lon": -0.12613,
     "tags": [
-      "Machine learning",
-      "Reinforcement learning",
-      "LLMs/Foundation models",
-      "Simulation",
-      "Cooperation",
-      "Agent-based Modelling",
-      "Human-centered AI"
+      "Multi-agent reinforcement learning",
+      "LLM-based agents and agentic AI",
+      "Cooperative AI and coordination",
+      "Human-agent interaction and human-centred AI",
+      "Agent-based modelling and simulation"
     ],
     "desc": ""
   },
@@ -69,13 +82,11 @@ const labs = [
     "lat": 53.3437,
     "lon": -2.6406,
     "tags": [
-      "Machine learning",
-      "Game theory",
-      "Reinforcement learning",
-      "Simulation",
-      "LLMs/Foundation models",
-      "Cooperation",
-      "Graph theory"
+      "Multi-agent reinforcement learning",
+      "LLM-based agents and agentic AI",
+      "Cooperative AI and coordination",
+      "Game theory, mechanism design and markets",
+      "Agent-based modelling and simulation"
     ],
     "desc": ""
   },
@@ -87,15 +98,17 @@ const labs = [
     "lat": 51.44785,
     "lon": -0.95746,
     "tags": [
-      "Machine learning",
-      "Robotics",
-      "Reinforcement learning",
-      "Simulation",
-      "LLMs/Foundation models",
-      "Cooperation",
-      "Competition",
+      "Multi-agent reinforcement learning",
+      "LLM-based agents and agentic AI",
+      "Cooperative AI and coordination",
+      "Game theory, mechanism design and markets",
+      "Multi-robot systems and swarms",
+      "Agent-based modelling and simulation",
+      "Applications"
+    ],
+    "areas": [
       "Energy",
-      "Smart Transportation"
+      "Transport"
     ],
     "desc": "HRE-UK is an overseas Honda R&D centre focused on anticipating future societal challenges in Europe and actively developing state-of-the-art technologies in the digital domain. Our commitment is to demonstrate the positive impact our future solutions will have on people and help Honda continue to be a company that society wants to exist. Our research into multi-agent systems includes agentic AI, multi-agent reinforcement learning and autonomy. Our application areas span the range Honda’s domain interests including mobility, energy and robotics."
   },
@@ -107,8 +120,7 @@ const labs = [
     "lat": 53.37438,
     "lon": -6.28229,
     "tags": [
-      "Machine learning",
-      "Reinforcement learning"
+      "Multi-agent reinforcement learning"
     ],
     "desc": "Autonomous Network Management Research"
   },
@@ -120,13 +132,11 @@ const labs = [
     "lat": 53.34891,
     "lon": -2.66042,
     "tags": [
-      "Machine learning",
-      "Game theory",
-      "Reinforcement learning",
-      "Simulation",
-      "LLMs/Foundation models",
-      "Cooperation",
-      "Graph theory"
+      "Multi-agent reinforcement learning",
+      "LLM-based agents and agentic AI",
+      "Cooperative AI and coordination",
+      "Game theory, mechanism design and markets",
+      "Agent-based modelling and simulation"
     ],
     "desc": "Working across two locations (Daresbury and Hursley), our teams have been constantly contributing to creating what’s next in computing. Our research is motivated by today’s most pressing challenges both in the global context and specific to UK industries and institutions. We bring cutting-edge computational science and engineering to define the quantum computing of the future, the next generation of artificial intelligence, and the technologies that will help accelerate scientific discovery, for UK and beyond."
   },
@@ -138,11 +148,10 @@ const labs = [
     "lat": 51.49936,
     "lon": -0.18484,
     "tags": [
-      "Machine learning",
-      "Robotics",
-      "Reinforcement learning",
-      "Simulation",
-      "Cooperation"
+      "Multi-agent reinforcement learning",
+      "Cooperative AI and coordination",
+      "Multi-robot systems and swarms",
+      "Agent-based modelling and simulation"
     ],
     "desc": "The Transport Systems & Logistics Laboratory at Imperial College London undertakes research in transport operations, with an emphasis on computational optimisation, autonomous technologies, and artificial intelligence. Our research and algorithms enable transport operators to maximise operational efficiency and provide strategic resilience against systemic disruptions. Our group is led by Prof Panagiotis Angeloudis, and is affiliated with the Imperial Robotics Forum, the Alan Turing Institute and the Institute for Security Science and Technology."
   },
@@ -154,13 +163,11 @@ const labs = [
     "lat": 51.50284,
     "lon": -0.01772,
     "tags": [
-      "Machine learning",
-      "Reinforcement learning",
-      "Simulation",
-      "LLMs/Foundation models",
-      "Markets",
-      "Agent-based Modelling",
-      "Planning"
+      "Multi-agent reinforcement learning",
+      "LLM-based agents and agentic AI",
+      "Game theory, mechanism design and markets",
+      "Agent-based modelling and simulation",
+      "Planning and reasoning"
     ],
     "desc": ""
   },
@@ -172,13 +179,12 @@ const labs = [
     "lat": 51.51162,
     "lon": -0.11814,
     "tags": [
-      "Machine learning",
-      "Game theory",
-      "Reinforcement learning",
-      "LLMs/Foundation models",
-      "Cooperation",
-      "Responsible AI",
-      "Safety"
+      "Multi-agent reinforcement learning",
+      "LLM-based agents and agentic AI",
+      "Cooperative AI and coordination",
+      "Game theory, mechanism design and markets",
+      "AI safety, alignment and trustworthiness",
+      "Governance, policy and ethics"
     ],
     "desc": "Our research aim is to enable machines to exhibit cooperative and safe behavior in intelligent decision making tasks. To this end, we work on multi-agent cooperation, human-AI coordination, and scalable alignment, which includes human value learning, safety, and ethics."
   },
@@ -190,17 +196,15 @@ const labs = [
     "lat": 51.51179,
     "lon": -0.11518,
     "tags": [
-      "Simulation",
-      "Game theory",
-      "Agent-based Modelling",
-      "Responsible AI",
-      "Imitation learning",
-      "Argumentation",
-      "Human-centered AI",
-      "Deception",
-      "Theory of Mind",
-      "Cognitive Agent Architectures",
-      "Self-Organising MAS"
+      "Multi-agent reinforcement learning",
+      "Cooperative AI and coordination",
+      "Game theory, mechanism design and markets",
+      "Negotiation, argumentation and agent communication",
+      "Human-agent interaction and human-centred AI",
+      "AI safety, alignment and trustworthiness",
+      "Governance, policy and ethics",
+      "Agent-based modelling and simulation",
+      "Planning and reasoning"
     ],
     "desc": "The Hybrid Intelligence and Deception Exploration (HIDE) Lab focuses on understanding the complexity of human-AI interactions and deception in increasingly hybrid societies. The lab is led by Dr. Stefan Sarkadi, who is currently a Proleptic Lecturer (Assistant Professor) in the Dept. of Informatics at King’s College London. The Lab’s aim is to act as an international hub for conducting state-of-the-art AI-based research to tackle the topic of deception."
   },
@@ -212,13 +216,11 @@ const labs = [
     "lat": 51.5108,
     "lon": -0.11523,
     "tags": [
-      "Robotics",
-      "Cooperation",
-      "Non-monotonic Reasoning",
-      "Argumentation",
-      "Dialogue",
-      "Planning",
-      "Natural Language Processing"
+      "LLM-based agents and agentic AI",
+      "Cooperative AI and coordination",
+      "Negotiation, argumentation and agent communication",
+      "Multi-robot systems and swarms",
+      "Planning and reasoning"
     ],
     "desc": "The Reasoning and Planning (RAP) group researches symbolic models for reasoning involving argumentation, knowledge representation and planning, and the combination of reasoning, planning and machine learning approaches, and their applications in Robotics. Research within the RAP group considers both individual and multi-entity reasoning and planning, which may involve humans as well as AI systems."
   },
@@ -230,7 +232,7 @@ const labs = [
     "lat": 54.06505,
     "lon": -2.76914,
     "tags": [
-      "Engineering Multiagent Systems"
+      "Formal methods and verification"
     ],
     "desc": "We practice Interaction-Oriented Programming, the idea that engineering multiagent systems means first modeling the interactions between the agents and then implementing them. Our lab boasts world-leading languages for modeling interactions, both in terms of the normative meaning and interaction protocols; approaches for verifying them; and programming models for implementing intelligent agents. Check out our software: https://gitlab.com/masr"
   },
@@ -242,10 +244,9 @@ const labs = [
     "lat": 51.51442,
     "lon": -0.11639,
     "tags": [
-      "Game theory",
-      "Reinforcement learning",
-      "Cooperation",
-      "Competition"
+      "Multi-agent reinforcement learning",
+      "Cooperative AI and coordination",
+      "Game theory, mechanism design and markets"
     ],
     "desc": ""
   },
@@ -257,9 +258,9 @@ const labs = [
     "lat": 54.97668,
     "lon": -1.53126,
     "tags": [
-      "Game theory",
-      "Robotics",
-      "Reinforcement learning"
+      "Multi-agent reinforcement learning",
+      "Game theory, mechanism design and markets",
+      "Multi-robot systems and swarms"
     ],
     "desc": ""
   },
@@ -271,13 +272,11 @@ const labs = [
     "lat": 51.51325,
     "lon": -0.05137,
     "tags": [
-      "Machine learning",
-      "Game theory",
-      "Reinforcement learning",
-      "Simulation",
-      "LLMs/Foundation models",
-      "Cooperation",
-      "Competition"
+      "Multi-agent reinforcement learning",
+      "LLM-based agents and agentic AI",
+      "Cooperative AI and coordination",
+      "Game theory, mechanism design and markets",
+      "Agent-based modelling and simulation"
     ],
     "desc": "Our group is closely associated with the EPSRC funded IGGI Centre for Doctoral Training and also hosts the Tabletop Games project (TAG) featuring complex multi-player games."
   },
@@ -289,13 +288,12 @@ const labs = [
     "lat": 51.4257,
     "lon": -0.5631,
     "tags": [
-      "Game theory",
-      "Reinforcement learning",
-      "Simulation",
-      "LLMs/Foundation models",
-      "Agent-based Modelling",
-      "Computational logic",
-      "Negotiation"
+      "Multi-agent reinforcement learning",
+      "LLM-based agents and agentic AI",
+      "Game theory, mechanism design and markets",
+      "Negotiation, argumentation and agent communication",
+      "Agent-based modelling and simulation",
+      "Planning and reasoning"
     ],
     "desc": ""
   },
@@ -307,11 +305,10 @@ const labs = [
     "lat": 51.5304,
     "lon": -0.1281,
     "tags": [
-      "Machine learning",
-      "Robotics",
-      "Reinforcement learning",
-      "Simulation",
-      "Planning"
+      "Multi-agent reinforcement learning",
+      "Multi-robot systems and swarms",
+      "Agent-based modelling and simulation",
+      "Planning and reasoning"
     ],
     "desc": ""
   },
@@ -323,10 +320,9 @@ const labs = [
     "lat": 51.52727,
     "lon": -0.13763,
     "tags": [
-      "Simulation",
-      "Agent-based Modelling",
-      "Responsible AI",
-      "Human-centered AI"
+      "Human-agent interaction and human-centred AI",
+      "Governance, policy and ethics",
+      "Agent-based modelling and simulation"
     ],
     "desc": "Keywords: Agent-Based Modelling, Human-AI Interaction, Human-Centred AI, Responsible AI"
   },
@@ -338,13 +334,11 @@ const labs = [
     "lat": 51.52783,
     "lon": -0.13522,
     "tags": [
-      "Machine learning",
-      "Game theory",
-      "Reinforcement learning",
-      "LLMs/Foundation models",
-      "Cooperation",
-      "Competition",
-      "AI-based Decision-making"
+      "Multi-agent reinforcement learning",
+      "LLM-based agents and agentic AI",
+      "Cooperative AI and coordination",
+      "Game theory, mechanism design and markets",
+      "Planning and reasoning"
     ],
     "desc": "The research activities of the Machine Intelligence Lab focus on the theoretical foundations of machine intelligence and its applications to a variety of real-world problems. The lab is headed by Professor Mirco Musolesi and is based at the Department of Computer Science, University College London."
   },
@@ -356,12 +350,10 @@ const labs = [
     "lat": 57.14821,
     "lon": -2.11092,
     "tags": [
-      "Machine learning",
-      "Cooperation",
-      "Safety",
-      "belief-desire-intention agents",
-      "Argumentation",
-      "Planning"
+      "Cooperative AI and coordination",
+      "Negotiation, argumentation and agent communication",
+      "AI safety, alignment and trustworthiness",
+      "Planning and reasoning"
     ],
     "desc": "Agents at Aberdeen is a research group with a long history of investigating a wide variety of research topics related to autonomous agents, multi-agent systems and knowledge representation and reasoning. Our recent focus has been on exploring resilience, reliability, and coordination in autonomous multi-agent systems. We apply these techniques to a wide range of application domains, including but not limited to: emergency response, healthcare, decision-making in robotic systems, self-driving cars, explainability, and software engineering."
   },
@@ -373,15 +365,12 @@ const labs = [
     "lat": 51.36224,
     "lon": -2.36174,
     "tags": [
-      "Machine learning",
-      "Game theory",
-      "Robotics",
-      "Reinforcement learning",
-      "Simulation",
-      "LLMs/Foundation models",
-      "Cooperation",
-      "Competition",
-      "Markets"
+      "Multi-agent reinforcement learning",
+      "LLM-based agents and agentic AI",
+      "Cooperative AI and coordination",
+      "Game theory, mechanism design and markets",
+      "Multi-robot systems and swarms",
+      "Agent-based modelling and simulation"
     ],
     "desc": ""
   },
@@ -393,10 +382,8 @@ const labs = [
     "lat": 52.54574,
     "lon": -1.85431,
     "tags": [
-      "Machine learning",
-      "Robotics",
-      "Reinforcement learning",
-      "Imitation learning"
+      "Multi-agent reinforcement learning",
+      "Multi-robot systems and swarms"
     ],
     "desc": ""
   },
@@ -408,12 +395,10 @@ const labs = [
     "lat": 52.52905,
     "lon": -1.98888,
     "tags": [
-      "Machine learning",
-      "Simulation",
-      "LLMs/Foundation models",
-      "Agent-based Modelling",
-      "Argumentation",
-      "Responsible AI"
+      "LLM-based agents and agentic AI",
+      "Negotiation, argumentation and agent communication",
+      "Governance, policy and ethics",
+      "Agent-based modelling and simulation"
     ],
     "desc": "The Centre for Artificial Intelligence in Government (CAIG) harnesses the power of artificial intelligence and data science methodologies to explore the multifaceted intersections with social sciences, with a particular focus on democracy, global affairs, and sustainable development."
   },
@@ -425,15 +410,16 @@ const labs = [
     "lat": 51.45729,
     "lon": -2.60353,
     "tags": [
-      "Machine learning",
-      "Robotics",
-      "Simulation",
-      "Cooperation",
-      "Imitation learning",
-      "Microbiology",
-      "Nanosystems",
-      "Reinforcement learning",
-      "LLMs/Foundation models"
+      "Multi-agent reinforcement learning",
+      "LLM-based agents and agentic AI",
+      "Cooperative AI and coordination",
+      "Multi-robot systems and swarms",
+      "Agent-based modelling and simulation",
+      "Applications"
+    ],
+    "areas": [
+      "Biology",
+      "Nanosystems"
     ],
     "desc": "The Hauert lab engineers swarms for people, and across scales—from nanorobots for cancer treatment, to larger robots for environmental monitoring or logistics. Principal Investigator: Prof. Sabine Hauert (sabine.hauert@bristol.ac.uk)."
   },
@@ -445,10 +431,8 @@ const labs = [
     "lat": 51.45697,
     "lon": -2.59928,
     "tags": [
-      "Machine learning",
-      "Robotics",
-      "Simulation",
-      "Agent-based Modelling"
+      "Multi-robot systems and swarms",
+      "Agent-based modelling and simulation"
     ],
     "desc": ""
   },
@@ -460,15 +444,12 @@ const labs = [
     "lat": 51.4585,
     "lon": -2.60087,
     "tags": [
-      "Machine learning",
-      "Reinforcement learning",
-      "LLMs/Foundation models",
-      "Simulation",
-      "Cooperation",
-      "Responsible AI",
-      "Human-centered AI",
-      "Normative Systems",
-      "Ethics"
+      "Multi-agent reinforcement learning",
+      "LLM-based agents and agentic AI",
+      "Cooperative AI and coordination",
+      "Human-agent interaction and human-centred AI",
+      "Governance, policy and ethics",
+      "Agent-based modelling and simulation"
     ],
     "desc": "Our research focusses on advancing foundational AI for the societal good, focusing on the development of ethical multi-agent systems. Our work encompasses intelligent agents and normative multi-agent systems, multi-agent reinforcement learning, multi-agent simulations, and graph-based approaches, all while integrating normative principles to ensure that AI systems align with societal norms and values. Our research seeks to facilitate interactions between computational agents and social entities, such as humans and organizations, with a strong emphasis on promoting prosocial behaviour and ensuring equitable outcomes. We are based in the School of Computer Science at the University of Bristol. Our team is part of the federated Intelligent Systems Labs, which comprises several units focussing on AI, machine learning, and data science research. We are affiliated with the Collective Dynamics lab and the AI lab."
   },
@@ -480,9 +461,8 @@ const labs = [
     "lat": 52.20434,
     "lon": 0.11651,
     "tags": [
-      "Machine learning",
-      "Reinforcement learning",
-      "LLMs/Foundation models"
+      "Multi-agent reinforcement learning",
+      "LLM-based agents and agentic AI"
     ],
     "desc": "Multi-agent systems for data analysis developed by cosmologists"
   },
@@ -494,15 +474,12 @@ const labs = [
     "lat": 52.2096,
     "lon": 0.09746,
     "tags": [
-      "Machine learning",
-      "Reinforcement learning",
-      "Robotics",
-      "Simulation",
-      "LLMs/Foundation models",
-      "Cooperation",
-      "Imitation learning",
-      "Control theory",
-      "Planning"
+      "Multi-agent reinforcement learning",
+      "LLM-based agents and agentic AI",
+      "Cooperative AI and coordination",
+      "Multi-robot systems and swarms",
+      "Agent-based modelling and simulation",
+      "Planning and reasoning"
     ],
     "desc": "The Prorok Lab at the University of Cambridge develops solutions for collective intelligence in multi-robot and multi-agent systems. Our aim is to extend single robot capabilities through collaborative strategies. We develop data-driven and hybrid approaches to hard coordination problems, and are interested in enabling fast on-line decision-making, as typically required in robotics applications."
   },
@@ -514,10 +491,9 @@ const labs = [
     "lat": 52.21254,
     "lon": 0.08904,
     "tags": [
-      "Competition",
-      "Cooperation",
-      "Machine learning",
-      "LLMs/Foundation models"
+      "LLM-based agents and agentic AI",
+      "Cooperative AI and coordination",
+      "Game theory, mechanism design and markets"
     ],
     "desc": ""
   },
@@ -529,11 +505,10 @@ const labs = [
     "lat": 55.94441,
     "lon": -3.18895,
     "tags": [
-      "Machine learning",
-      "Reinforcement learning",
-      "Simulation",
-      "LLMs/Foundation models",
-      "Cooperation"
+      "Multi-agent reinforcement learning",
+      "LLM-based agents and agentic AI",
+      "Cooperative AI and coordination",
+      "Agent-based modelling and simulation"
     ],
     "desc": "The Autonomous Agents Research Group is a research unit directed by Dr. Stefano V. Albrecht in the School of Informatics, University of Edinburgh. The group specialises in the development of artificial intelligence and machine learning technologies for autonomous systems control and decision making in complex environments. Current research focuses on algorithms for deep reinforcement learning, multi-agent reinforcement learning, and foundation models (e.g. LLMs) for autonomous systems."
   },
@@ -545,11 +520,12 @@ const labs = [
     "lat": 55.94297,
     "lon": -3.18552,
     "tags": [
-      "Machine learning",
-      "LLMs/Foundation models",
-      "AI Ethics",
-      "Responsible AI",
-      "Cybersecurity"
+      "LLM-based agents and agentic AI",
+      "AI safety, alignment and trustworthiness",
+      "Governance, policy and ethics"
+    ],
+    "areas": [
+      "Cyber security"
     ],
     "desc": ""
   },
@@ -561,11 +537,9 @@ const labs = [
     "lat": 55.94652,
     "lon": -3.18552,
     "tags": [
-      "Machine learning",
-      "Game theory",
-      "Reinforcement learning",
-      "LLMs/Foundation models",
-      "Markets"
+      "Multi-agent reinforcement learning",
+      "LLM-based agents and agentic AI",
+      "Game theory, mechanism design and markets"
     ],
     "desc": "The lab's interest is in trustworthy AI, particularly deep learning theory, theory of decentralised learning, privacy in machine learning, symmetry in machine learning, learning theory in game-theoretical problems, and their applications in economics."
   },
@@ -577,10 +551,7 @@ const labs = [
     "lat": 51.87305,
     "lon": 0.91522,
     "tags": [
-      "Machine learning",
-      "Game theory",
-      "Competition",
-      "Markets"
+      "Game theory, mechanism design and markets"
     ],
     "desc": ""
   },
@@ -592,11 +563,11 @@ const labs = [
     "lat": 50.73038,
     "lon": -3.50002,
     "tags": [
-      "Cooperation",
-      "Game theory",
-      "Agent-based Modelling",
-      "Responsible AI",
-      "Human-centered AI"
+      "Cooperative AI and coordination",
+      "Game theory, mechanism design and markets",
+      "Human-agent interaction and human-centred AI",
+      "Governance, policy and ethics",
+      "Agent-based modelling and simulation"
     ],
     "desc": ""
   },
@@ -608,16 +579,17 @@ const labs = [
     "lat": 55.85473,
     "lon": -4.31876,
     "tags": [
-      "Machine learning",
-      "Robotics",
-      "Reinforcement learning",
-      "LLMs/Foundation models",
-      "Formal methods",
-      "Planning",
-      "Responsible AI",
-      "Safety",
-      "Smart Transportation",
-      "Control theory"
+      "Multi-agent reinforcement learning",
+      "LLM-based agents and agentic AI",
+      "AI safety, alignment and trustworthiness",
+      "Formal methods and verification",
+      "Governance, policy and ethics",
+      "Multi-robot systems and swarms",
+      "Planning and reasoning",
+      "Applications"
+    ],
+    "areas": [
+      "Transport"
     ],
     "desc": "Contact: Dr Jianglin Lan Email: jianglin.lan@glasgow.ac.uk Research areas: Our mission is to advance AI and robotics by creating intelligent, secure, and ethical systems. We prioritize safety, reliability, and real-world resilience to maximize positive societal impact."
   },
@@ -629,9 +601,8 @@ const labs = [
     "lat": 53.80562,
     "lon": -1.70289,
     "tags": [
-      "Machine learning",
-      "LLMs/Foundation models",
-      "Agent-based Modelling"
+      "LLM-based agents and agentic AI",
+      "Agent-based modelling and simulation"
     ],
     "desc": "One of the main obstacles stop climate change from further escalating is not technological, but the societal and political will. The goal of this research group is to understand how this societal and political will can be mobilised. Specifically, our research advances our understanding of social change and how it can be accelerated in response to the climate crisis. We use network science and computational social science methods, alongside generative AI-based ABM methods to study tipping points in social systems with applications towards climate change adaptations."
   },
@@ -643,10 +614,8 @@ const labs = [
     "lat": 53.75452,
     "lon": -1.65482,
     "tags": [
-      "Machine learning",
-      "Simulation",
-      "LLMs/Foundation models",
-      "Agent-based Modelling"
+      "LLM-based agents and agentic AI",
+      "Agent-based modelling and simulation"
     ],
     "desc": "The MASS group specializes in Multi-Agent Systems, Cellular Automata and statistical simulations. Much of the work we do is social and/or ecological simulations aimed at discovering whether our understanding of these systems is accurate or prediction of how such systems may change. For further details, contact Nick Malleson (n.s.malleson@leeds.ac.uk)."
   },
@@ -658,11 +627,11 @@ const labs = [
     "lat": 53.80076,
     "lon": -1.48179,
     "tags": [
-      "Reinforcement learning",
-      "Simulation",
-      "LLMs/Foundation models",
-      "Cooperation",
-      "Competition"
+      "Multi-agent reinforcement learning",
+      "LLM-based agents and agentic AI",
+      "Cooperative AI and coordination",
+      "Game theory, mechanism design and markets",
+      "Agent-based modelling and simulation"
     ],
     "desc": ""
   },
@@ -674,12 +643,10 @@ const labs = [
     "lat": 53.38545,
     "lon": -2.91191,
     "tags": [
-      "Game theory",
-      "Reinforcement learning",
-      "LLMs/Foundation models",
-      "Cooperation",
-      "Competition",
-      "Markets"
+      "Multi-agent reinforcement learning",
+      "LLM-based agents and agentic AI",
+      "Cooperative AI and coordination",
+      "Game theory, mechanism design and markets"
     ],
     "desc": ""
   },
@@ -691,10 +658,9 @@ const labs = [
     "lat": 51.74841,
     "lon": -1.2361,
     "tags": [
-      "Machine learning",
-      "Robotics",
-      "Reinforcement learning",
-      "Cooperation"
+      "Multi-agent reinforcement learning",
+      "Cooperative AI and coordination",
+      "Multi-robot systems and swarms"
     ],
     "desc": "The Goal-Oriented Long-Lived Systems (GOALS) Lab performs research around the problems of behaviour generation for autonomous systems. In particular we focus on long-term autonomy and task and mission planning for mobile robots which must operate for extended periods (days, weeks or months) in dynamic, uncertain environments. To create long-term autonomous behaviour we explore the application of artificial intelligence techniques to robots, particularly planning under uncertainty and machine learning, such that the longer robots act in an environment, the better they perform."
   },
@@ -706,13 +672,11 @@ const labs = [
     "lat": 51.73778,
     "lon": -1.23987,
     "tags": [
-      "Machine learning",
-      "Game theory",
-      "Reinforcement learning",
-      "Simulation",
-      "LLMs/Foundation models",
-      "Cooperation",
-      "Agent-based Modelling"
+      "Multi-agent reinforcement learning",
+      "LLM-based agents and agentic AI",
+      "Cooperative AI and coordination",
+      "Game theory, mechanism design and markets",
+      "Agent-based modelling and simulation"
     ],
     "desc": ""
   },
@@ -724,16 +688,16 @@ const labs = [
     "lat": 51.75755,
     "lon": -1.2385,
     "tags": [
-      "Reinforcement learning",
-      "LLMs/Foundation models",
-      "Imitation learning",
-      "Mean-field theory",
-      "Formal methods",
-      "Safety",
-      "Control theory",
-      "Cooperation",
-      "Game theory",
-      "Competition",
+      "Multi-agent reinforcement learning",
+      "LLM-based agents and agentic AI",
+      "Cooperative AI and coordination",
+      "Game theory, mechanism design and markets",
+      "AI safety, alignment and trustworthiness",
+      "Formal methods and verification",
+      "Multi-robot systems and swarms",
+      "Applications"
+    ],
+    "areas": [
       "Energy"
     ],
     "desc": "OXCAV - The Oxford Control & Verification group - is part of the Department of Computer Science at the University of Oxford, and is led by Prof. Alessandro Abate. We tackle scientific challenges in the area of safe AI and assured autonomy. Technically, our research interests lie in the formal verification and optimal control of heterogeneous and complex dynamical models, built from first principles or learnt from data. We blend in techniques from machine learning and AI, such as Bayesian inference, RL, and game theory."
@@ -746,8 +710,8 @@ const labs = [
     "lat": 53.38231,
     "lon": -1.48734,
     "tags": [
-      "Simulation",
-      "Software Development and Tools"
+      "Formal methods and verification",
+      "Agent-based modelling and simulation"
     ],
     "desc": "Research Software Engineering at Sheffield leads the development of the FLAME GPU 2 software tool for large scale, agent based simulation on graphics processing units (GPUs). The software underpins a wide range of international research using agent based simulation in areas such of computational biology through to pedestrian and transport dynamics. The development team is led by Prof Paul Richmond."
   },
@@ -759,17 +723,13 @@ const labs = [
     "lat": 50.93521,
     "lon": -1.39014,
     "tags": [
-      "Machine learning",
-      "Game theory",
-      "Robotics",
-      "Reinforcement learning",
-      "Simulation",
-      "LLMs/Foundation models",
-      "Cooperation",
-      "Competition",
-      "Markets",
-      "Formal methods",
-      "Verification"
+      "Multi-agent reinforcement learning",
+      "LLM-based agents and agentic AI",
+      "Cooperative AI and coordination",
+      "Game theory, mechanism design and markets",
+      "Formal methods and verification",
+      "Multi-robot systems and swarms",
+      "Agent-based modelling and simulation"
     ],
     "desc": "The agents, interaction and complexity (AIC) research group is an interdisciplinary research group with over 20 academic staff focusing on artificial intelligence, including complex systems, robotics, multi-agent systems, and human-machine interactions. Our work explores complex socio‐technical, socio‐economic and socio‐ecological systems. We investigate both theory, such as safe, verifiable, and trustworthy autonomous systems, as well applications, such as smart cities and disaster response."
   },
@@ -781,13 +741,15 @@ const labs = [
     "lat": 50.93476,
     "lon": -1.39563,
     "tags": [
-      "Game theory",
-      "Reinforcement learning",
-      "Responsible AI",
-      "Human-centered AI",
-      "Human-AI Interaction",
+      "Multi-agent reinforcement learning",
+      "Game theory, mechanism design and markets",
+      "Human-agent interaction and human-centred AI",
+      "Governance, policy and ethics",
+      "Applications"
+    ],
+    "areas": [
       "Energy",
-      "Smart Transportation"
+      "Transport"
     ],
     "desc": "We are developing the fundamental science needed to build AI systems that can be trusted by citizen users. This involves a multi-disciplinary approach drawing on preference learning, human-AI interaction, game theory, participatory approaches and multiagent systems. We apply our work to pressing societal problems, especially in the energy and transportation domains."
   },
@@ -799,9 +761,11 @@ const labs = [
     "lat": 55.84241,
     "lon": -4.18693,
     "tags": [
-      "Machine learning",
-      "Cooperation",
-      "Competition",
+      "Cooperative AI and coordination",
+      "Game theory, mechanism design and markets",
+      "Applications"
+    ],
+    "areas": [
       "Energy"
     ],
     "desc": ""
@@ -814,17 +778,13 @@ const labs = [
     "lat": 52.41533,
     "lon": -1.46501,
     "tags": [
-      "Machine learning",
-      "Game theory",
-      "Reinforcement learning",
-      "Simulation",
-      "LLMs/Foundation models",
-      "Cooperation",
-      "Competition",
-      "Imitation learning",
-      "Agent-based Modelling",
-      "Formal methods",
-      "Responsible AI"
+      "Multi-agent reinforcement learning",
+      "LLM-based agents and agentic AI",
+      "Cooperative AI and coordination",
+      "Game theory, mechanism design and markets",
+      "Formal methods and verification",
+      "Governance, policy and ethics",
+      "Agent-based modelling and simulation"
     ],
     "desc": "We work on Cooperative AI, through formal methods and agent-based modelling and simulation. We use game theory, reinforcement learning and social network dynamics. Based in the Computer Science Department at Warwick, we have inderdisciplinary collaborations with Psychology, Economics, Mathematics and Statistics. Members are Paolo Turrini (head), Chin-wing Leung (research fellow), Luisa Estrada (PhD student), Xiaoqing Fan (PhD student), Yueting Han (PhD student), Benedict Russell (PhD Student)."
   },
@@ -836,9 +796,8 @@ const labs = [
     "lat": 51.4968,
     "lon": -0.13299,
     "tags": [
-      "Machine learning",
-      "Reinforcement learning",
-      "Simulation"
+      "Multi-agent reinforcement learning",
+      "Agent-based modelling and simulation"
     ],
     "desc": "The Centre for Air Traffic Management is engaged in data driven analysis and applied research for industry and stakeholders. We are involved in numerous projects researching passenger mobility, performance assessment, environmental impacts, economic analysis, (network) modelling and simulation and data management. Mercury is an open source ABM capturing air transport (and multimodal) operations with the main stakeholders and processes modelled (https://github.com/UoW-ATM/Mercury/)"
   }
