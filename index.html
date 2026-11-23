@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>UKMAAI – UK Multi-Agent &amp; Agentic AI Community</title>
 <meta name="description" content="UKMAAI is the UK community for research on multi-agent systems and agentic AI: mailing list, Slack, events, symposia and a map of UK labs.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Cg fill='none' stroke='%230f6e84' stroke-width='2.5' stroke-linecap='round'%3E%3Cpath d='M24 8 8 38h32z'/%3E%3Cpath d='M24 27V8M24 27 8 38M24 27l16 11'/%3E%3C/g%3E%3Cg fill='%2314213d'%3E%3Ccircle cx='24' cy='8' r='5'/%3E%3Ccircle cx='8' cy='38' r='5'/%3E%3Ccircle cx='40' cy='38' r='5'/%3E%3C/g%3E%3Ccircle cx='24' cy='27' r='6' fill='%232aa3bd'/%3E%3C/svg%3E">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
 <style>
   :root {
@@ -39,7 +40,9 @@
     border-bottom: 1px solid var(--line);
   }
   .nav .wrap { display: flex; align-items: center; justify-content: space-between; min-height: 60px; flex-wrap: wrap; }
-  .brand { font-weight: 700; font-size: 20px; letter-spacing: 0.04em; color: var(--ink); text-decoration: none; }
+  .brand { display: inline-flex; align-items: center; gap: 10px; font-weight: 700; font-size: 20px; letter-spacing: 0.04em; color: var(--ink); text-decoration: none; }
+  .logo { width: 32px; height: 32px; flex: none; }
+  .hero-logo { width: 72px; height: 72px; display: block; margin: 0 0 22px; }
   .nav nav { display: flex; flex-wrap: wrap; gap: 4px 22px; padding: 8px 0; }
   .nav nav a { color: var(--ink-soft); text-decoration: none; font-size: 15px; }
   .nav nav a:hover { color: var(--accent); }
@@ -143,7 +146,7 @@
 
 <header class="nav">
   <div class="wrap">
-    <a class="brand" href="#top">UKMAAI</a>
+    <a class="brand" href="#top"><svg class="logo" viewBox="0 0 48 48" aria-hidden="true" focusable="false"><g fill="none" stroke="#0f6e84" stroke-width="2.5" stroke-linecap="round"><path d="M24 8 8 38h32z"/><path d="M24 27V8M24 27 8 38M24 27l16 11"/></g><g fill="#14213d"><circle cx="24" cy="8" r="5"/><circle cx="8" cy="38" r="5"/><circle cx="40" cy="38" r="5"/></g><circle cx="24" cy="27" r="6" fill="#2aa3bd"/></svg><span>UKMAAI</span></a>
     <nav aria-label="Main">
       <a href="#about">About</a>
       <a href="#join">Join</a>
@@ -160,6 +163,7 @@
 
   <div class="hero">
     <div class="wrap">
+      <svg class="hero-logo" viewBox="0 0 48 48" aria-hidden="true" focusable="false"><g fill="none" stroke="#6fb9c9" stroke-width="2.5" stroke-linecap="round"><path d="M24 8 8 38h32z"/><path d="M24 27V8M24 27 8 38M24 27l16 11"/></g><g fill="#ffffff"><circle cx="24" cy="8" r="5"/><circle cx="8" cy="38" r="5"/><circle cx="40" cy="38" r="5"/></g><circle cx="24" cy="27" r="6" fill="#2aa3bd"/></svg>
       <p class="kicker">UKMAAI</p>
       <h1>UK Multi-Agent &amp; Agentic AI Community</h1>
       <p class="lead">A community for researchers and practitioners across UK universities and industry working on multi-agent systems and agentic AI. We share news, events, collaboration opportunities and jobs, and bring people together in person.</p>
