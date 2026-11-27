@@ -25,9 +25,37 @@ Open `index.html`, find the `events` list in the `<script>` near the bottom, and
 },
 ```
 
-Events whose date has passed are hidden automatically. Community members can open a pull request, or send the details on Slack or by email and an organiser will add them.
+Events whose date has passed are hidden automatically. Community members send the details on Slack or by email and an organiser adds them.
 
-## Adding or updating a lab
+## News (Google Form, approved by an organiser)
+
+Members submit news with a Google Form; the page reads the form's Google Sheet and shows the rows an organiser has approved. Nothing in this repository needs editing to publish a news item.
+
+Set-up, once:
+
+1. The news form needs these questions, in this order: **Date** (date, required), **Headline** (short answer, required), **Link (optional)** (short answer), **Details (optional)** (paragraph), **Your name** (short answer), **Contact email (not published)** (short answer).
+2. In the form, open Responses → Link to Sheets. In the sheet, name column H `Approved` and give it tick boxes (Insert → Tick box).
+3. Add a second tab called `Public` and put this in cell A1:
+   `=QUERY('Form responses 1'!A:H, "select B,C,D,E where H = TRUE order by B desc format B 'yyyy-mm-dd'", 1)`
+4. File → Share → Publish to web → choose the `Public` tab and "Comma-separated values (.csv)" → Publish. Only that tab is public, so names and emails stay private.
+5. In `index.html`, set `NEWS_FORM_URL` (the form link) and `NEWS_CSV_URL` (the published CSV link). The News section is hidden until `NEWS_FORM_URL` is set.
+
+To publish a news item, tick its `Approved` box. To remove it, untick it.
+
+## Lab updates (existing labs only) and new labs
+
+Labs use the lab Google Form for both updates and new entries.
+
+- **Update to an existing lab**: applied on the page automatically. The page reads the lab form's sheet and, for a row whose lab name matches a lab already in `labs.js`, replaces that lab's organisation, city, website, topics and description. Map coordinates always come from `labs.js`.
+- **New lab**: never appears automatically. An organiser reviews the form response and adds the lab to `labs.js` (below).
+
+Set-up, once: in the lab form's sheet, add a `Public` tab with this in A1 (it leaves out the contact email column):
+`=QUERY('Form responses 1'!A:I, "select A,C,D,E,F,G,H where B contains 'Update'", 1)`
+Publish that tab as CSV (as in step 4 above) and set `LAB_UPDATES_CSV_URL` in `index.html`. While it is empty, the page shows `labs.js` unchanged.
+
+Anyone who knows a lab's name can submit an update for it, so check the sheet from time to time; delete a bad row to undo it.
+
+## Adding a new lab
 
 Open `labs.js` and add an entry to the `labs` list:
 

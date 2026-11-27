@@ -1,7 +1,9 @@
 // UK multi-agent systems labs.
 // This file feeds both the map and the labs directory on the website.
-// To add or update a lab, edit this file and open a pull request,
-// or tell us on Slack or by email.
+// Labs submit changes through the lab Google Form (linked on the site).
+// Updates to labs already in this list are applied on the page automatically
+// (see LAB_UPDATES_CSV_URL in index.html). A NEW lab only appears once an
+// organiser adds it to this list, with its lat / lon.
 //
 // `labs` holds the current directory (entries collected for the 2025 symposium).
 //   lat / lon place the lab on the map. To find them, right-click the

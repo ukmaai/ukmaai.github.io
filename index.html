@@ -87,6 +87,8 @@
   .event-title { font-weight: 600; }
   .event-meta { color: var(--ink-soft); font-size: 15px; }
   .empty { padding: 22px 24px; background: var(--accent-tint); border-radius: 8px; margin: 0 0 24px; }
+  [hidden] { display: none !important; }
+  .news-older { display: block; margin: 0 0 24px; }
   .callout { border-left: 4px solid var(--accent); padding: 4px 0 4px 18px; max-width: 70ch; }
 
   /* Symposia */
@@ -153,8 +155,8 @@
   .bar-val { font-size: 13px; color: var(--ink-soft); font-variant-numeric: tabular-nums; }
   .bars.has-active .bar-row:not(.active) .bar-fill { opacity: .3; }
   .bar-row.active .bar-name { font-weight: 600; }
-  .chart-card .more { background: none; border: 0; padding: 6px 0 0; font: inherit; font-size: 14px; color: var(--accent); cursor: pointer; }
-  .chart-card .more:hover { text-decoration: underline; }
+  .chart-card .more, .news-older { background: none; border: 0; padding: 6px 0 0; font: inherit; font-size: 14px; color: var(--accent); cursor: pointer; }
+  .chart-card .more:hover, .news-older:hover { text-decoration: underline; }
   .viz-tip { position: fixed; z-index: 50; pointer-events: none; background: var(--ink); color: #fff; padding: 7px 10px; border-radius: 6px; font-size: 13px; line-height: 1.35; box-shadow: 0 4px 14px rgba(11,33,73,.18); opacity: 0; transition: opacity .1s; }
   .viz-tip strong { display: block; font-size: 15px; }
   .active-filter { display: inline-flex; align-items: center; gap: 8px; background: var(--accent-tint); color: var(--accent-dark); border-radius: 999px; padding: 6px 8px 6px 14px; font-size: 14px; }
@@ -188,6 +190,7 @@
     <nav aria-label="Main">
       <a href="#about">About</a>
       <a href="#join">Join</a>
+      <a href="#news" id="nav-news" hidden>News</a>
       <a href="#events">Events</a>
       <a href="#symposia">Symposia</a>
       <a href="#map">Map</a>
@@ -244,6 +247,21 @@
           <p>Announcements of events, calls for papers, jobs and community news, hosted on JiscMail. It replaces the former multi-agent@turing.ac.uk list.</p>
           <a class="btn" href="https://www.jiscmail.ac.uk/UKMAAI">Subscribe on JiscMail</a>
         </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="news" hidden>
+    <div class="wrap">
+      <h2>News</h2>
+      <p class="section-intro">Papers, awards, jobs, funding calls and other news from across the community, submitted by members.</p>
+      <ul class="event-list" id="news-list"></ul>
+      <p class="empty" id="no-news">No news has been posted yet.</p>
+      <button type="button" class="more news-older" id="news-more" hidden></button>
+
+      <div class="callout">
+        <h3>Share your news</h3>
+        <p>Have a paper, award, job opening, funding call or other news the community would enjoy? Submit it with <a id="news-form-link" href="#">this form</a>. Submissions appear here once an organiser has approved them.</p>
       </div>
     </div>
   </section>
@@ -319,14 +337,14 @@
           <p class="map-fallback" id="map-fallback">The map could not be loaded. You can still browse the <a href="#labs">labs directory</a> below.</p>
         </div>
       </div>
-      <p class="map-note">Click a marker for details. The full list is in the <a href="#labs">labs directory</a> below. The map is drawn from the same data, so adding a lab there adds it here.</p>
+      <p class="map-note">Click a marker for details. The full list is in the <a href="#labs">labs directory</a> below. New labs are added to the map by the organisers after review.</p>
     </div>
   </section>
 
   <section id="labs" class="alt">
     <div class="wrap">
       <h2>Labs directory</h2>
-      <p class="section-intro">Research groups from the map, as submitted by the labs themselves for the 2025 symposium. To add or update your lab, fill in <a href="https://docs.google.com/forms/d/e/1FAIpQLSfira9c04TGu0-YOtr6WIJ6lGXMMPZA-dYH-P18fDPbT3eDJQ/viewform">this form</a>.</p>
+      <p class="section-intro">Research groups from the map, as submitted by the labs themselves. To update your lab's entry or add a new lab, fill in <a href="https://docs.google.com/forms/d/e/1FAIpQLSfira9c04TGu0-YOtr6WIJ6lGXMMPZA-dYH-P18fDPbT3eDJQ/viewform">this form</a>. <span id="lab-auto-note" hidden>Updates to existing entries appear here automatically. </span>New labs are reviewed by the organisers before they appear on the map and in the directory.</p>
       <div class="lab-stats" id="lab-stats"></div>
       <div class="lab-charts">
         <div class="chart-card">
@@ -387,6 +405,111 @@
 
 <script>
   // ---------------------------------------------------------------
+  // GOOGLE FORM / SHEET SETTINGS
+  // See README.md ("News" and "Lab updates") for how to set these up.
+  // Leave a value empty ("") to switch that feature off.
+  // ---------------------------------------------------------------
+  const NEWS_FORM_URL = "";        // link to the news Google Form
+  const NEWS_CSV_URL = "";         // published CSV of the news sheet's "Public" tab
+  const LAB_UPDATES_CSV_URL = "";  // published CSV of the labs sheet's "Public" tab
+
+  // Minimal CSV parser (handles quoted fields, commas and line breaks).
+  function parseCSV(text) {
+    const rows = []; let row = [], cur = "", q = false;
+    for (let i = 0; i < text.length; i++) {
+      const c = text[i];
+      if (q) {
+        if (c === '"') { if (text[i + 1] === '"') { cur += '"'; i++; } else q = false; }
+        else cur += c;
+      } else if (c === '"') q = true;
+      else if (c === ",") { row.push(cur); cur = ""; }
+      else if (c === "\n" || c === "\r") {
+        if (c === "\r" && text[i + 1] === "\n") i++;
+        row.push(cur); cur = ""; rows.push(row); row = [];
+      } else cur += c;
+    }
+    if (cur !== "" || row.length) { row.push(cur); rows.push(row); }
+    return rows.filter(function (r) { return r.some(function (v) { return v.trim() !== ""; }); });
+  }
+  // Fetch a published sheet and return its rows as objects keyed by a
+  // short field name, found by looking for a keyword in each header.
+  function fetchSheet(url, fields) {
+    const ctl = new AbortController();
+    const timer = setTimeout(function () { ctl.abort(); }, 5000);
+    return fetch(url, { signal: ctl.signal, cache: "no-store" })
+      .then(function (r) { if (!r.ok) throw new Error("HTTP " + r.status); return r.text(); })
+      .then(function (text) {
+        clearTimeout(timer);
+        const rows = parseCSV(text);
+        if (!rows.length) return [];
+        const head = rows[0].map(function (h) { return h.trim().toLowerCase(); });
+        const idx = {};
+        Object.keys(fields).forEach(function (k) {
+          idx[k] = head.findIndex(function (h) { return h.indexOf(fields[k]) !== -1; });
+        });
+        return rows.slice(1).map(function (r) {
+          const o = {};
+          Object.keys(idx).forEach(function (k) { o[k] = idx[k] === -1 ? "" : (r[idx[k]] || "").trim(); });
+          return o;
+        });
+      });
+  }
+  function safeUrl(u) { return /^https?:\/\//i.test(u || "") ? u : ""; }
+
+  // ---------------------------------------------------------------
+  // NEWS: read from the Google Sheet behind the news form.
+  // The section stays hidden until NEWS_FORM_URL is set.
+  // ---------------------------------------------------------------
+  (function () {
+    if (!NEWS_FORM_URL) return;
+    document.getElementById("news").hidden = false;
+    document.getElementById("nav-news").hidden = false;
+    document.getElementById("news-form-link").href = NEWS_FORM_URL;
+    // keep the alternating section backgrounds after inserting News
+    ["events", "symposia", "map", "labs", "contact"].forEach(function (id) {
+      document.getElementById(id).classList.toggle("alt");
+    });
+    const list = document.getElementById("news-list");
+    const empty = document.getElementById("no-news");
+    const more = document.getElementById("news-more");
+    list.style.display = "none";
+    if (!NEWS_CSV_URL) return;
+    fetchSheet(NEWS_CSV_URL, { date: "date", title: "headline", link: "link", details: "details" })
+      .then(function (items) {
+        items = items.filter(function (n) { return n.title; });
+        items.sort(function (a, b) { return a.date < b.date ? 1 : a.date > b.date ? -1 : 0; });
+        if (!items.length) return;
+        empty.style.display = "none"; list.style.display = "";
+        const FIRST = 6; let expanded = false;
+        function draw() {
+          list.innerHTML = "";
+          (expanded ? items : items.slice(0, FIRST)).forEach(function (n) {
+            const li = document.createElement("li");
+            const d = document.createElement("div");
+            d.className = "event-date";
+            const dt = /^\d{4}-\d{2}-\d{2}$/.test(n.date) ? new Date(n.date + "T00:00:00") : null;
+            d.textContent = dt ? dt.toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" }) : n.date;
+            const body = document.createElement("div");
+            const t = document.createElement("div");
+            t.className = "event-title";
+            const href = safeUrl(n.link);
+            if (href) { const a = document.createElement("a"); a.href = href; a.rel = "noopener"; a.textContent = n.title; t.appendChild(a); }
+            else t.textContent = n.title;
+            body.appendChild(t);
+            if (n.details) { const m = document.createElement("div"); m.className = "event-meta"; m.textContent = n.details; body.appendChild(m); }
+            li.appendChild(d); li.appendChild(body); list.appendChild(li);
+          });
+          more.hidden = items.length <= FIRST;
+          more.textContent = expanded ? "Show fewer" : "Show all " + items.length + " news items";
+        }
+        more.addEventListener("click", function () { expanded = !expanded; draw(); });
+        draw();
+      })
+      .catch(function () { /* sheet unavailable: keep the "no news" note */ });
+  })();
+</script>
+<script>
+  // ---------------------------------------------------------------
   // UPCOMING EVENTS
   // To add an event, copy the example below into the list, remove the
   // leading "//" and fill it in. Use the date format YYYY-MM-DD.
@@ -438,7 +561,7 @@
 <script src="labs.js"></script>
 <script>
   // Labs directory: data lives in labs.js
-  (function () {
+  function renderLabs() {
     if (typeof labs === "undefined") return;
     const list = document.getElementById("lab-list");
     const count = document.getElementById("lab-count");
@@ -599,11 +722,11 @@
       tr.appendChild(el("td", "", l.keywords));
       old.appendChild(tr);
     });
-  })();
+  }
 </script>
 <script>
   // Map: markers come from labs.js (lat / lon of each lab)
-  (function () {
+  function renderMap() {
     if (typeof L === "undefined" || typeof labs === "undefined") return;
     const fb = document.getElementById("map-fallback");
     if (fb) fb.remove();
@@ -628,6 +751,50 @@
     });
     if (pts.length) map.fitBounds(pts, { padding: [30, 30] });
     map.on("click", function () { map.scrollWheelZoom.enable(); });
+  }
+
+  // ---------------------------------------------------------------
+  // LAB UPDATES from the lab form's Google Sheet.
+  // Only labs already listed in labs.js are updated (matched by name).
+  // A lab that is not in labs.js is ignored here: an organiser adds new
+  // labs to labs.js by hand, with their map coordinates.
+  // ---------------------------------------------------------------
+  const LAB_TOPICS = [
+    "Multi-agent reinforcement learning", "LLM-based agents and agentic AI",
+    "Agent evaluation and benchmarks", "Cooperative AI and coordination",
+    "Game theory, mechanism design and markets",
+    "Negotiation, argumentation and agent communication",
+    "Human-agent interaction and human-centred AI",
+    "AI safety, alignment and trustworthiness", "Formal methods and verification",
+    "Governance, policy and ethics", "Multi-robot systems and swarms",
+    "Agent-based modelling and simulation", "Planning and reasoning", "Applications"
+  ];
+  function labKey(name) {
+    return (name || "").toLowerCase().replace(/\([^)]*\)/g, " ").replace(/[^a-z0-9]+/g, "");
+  }
+  function applyLabUpdates(rows) {
+    const byKey = new Map();
+    labs.forEach(function (l) { byKey.set(labKey(l.name), l); });
+    rows.forEach(function (r) {           // later rows are newer and win
+      const key = labKey(r.name);
+      const lab = key && byKey.get(key);
+      if (!lab) return;                   // new lab: needs an organiser
+      if (r.org) lab.org = r.org;
+      if (r.city) lab.city = r.city;
+      if (safeUrl(r.url)) lab.url = r.url;
+      if (r.desc) lab.desc = r.desc;
+      const tags = LAB_TOPICS.filter(function (t) { return r.topics.indexOf(t) !== -1; });
+      if (tags.length) lab.tags = tags;
+    });
+  }
+  (function () {
+    function go() { renderLabs(); renderMap(); }
+    if (typeof labs === "undefined" || !LAB_UPDATES_CSV_URL) { go(); return; }
+    document.getElementById("lab-auto-note").hidden = false;
+    fetchSheet(LAB_UPDATES_CSV_URL, { name: "lab name", org: "organisation", city: "city", url: "website", topics: "topics", desc: "description" })
+      .then(applyLabUpdates)
+      .catch(function () { /* sheet unavailable: show labs.js as it is */ })
+      .then(go);
   })();
 </script>
 </body>
