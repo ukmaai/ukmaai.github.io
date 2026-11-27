@@ -46,14 +46,14 @@ To publish a news item, tick its `Approved` box. To remove it, untick it.
 
 Labs use the lab Google Form for both updates and new entries.
 
-- **Update to an existing lab**: applied on the page automatically. The page reads the lab form's sheet and, for a row whose lab name matches a lab already in `labs.js`, replaces that lab's organisation, city, website, topics and description. Map coordinates always come from `labs.js`.
+- **Update to an existing lab**: applied on the page once an organiser ticks its `Approved` box in the sheet; nothing in this repository needs editing. The page reads the lab form's sheet and, for a row whose lab name matches a lab already in `labs.js`, replaces that lab's organisation, city, website, topics and description. Map coordinates always come from `labs.js`.
 - **New lab**: never appears automatically. An organiser reviews the form response and adds the lab to `labs.js` (below).
 
-Set-up, once: in the lab form's sheet, add a `Public` tab with this in A1 (it leaves out the contact email column):
-`=QUERY('Form responses 1'!A:I, "select A,C,D,E,F,G,H where B contains 'Update'", 1)`
+Set-up, once: in the lab form's sheet, name column J `Approved` and give it tick boxes (Insert → Tick box). Add a `Public` tab with this in A1 (it leaves out the contact email column):
+`=QUERY('Form responses 1'!A:J, "select A,C,D,E,F,G,H where J = TRUE and B contains 'Update'", 1)`
 Publish that tab as CSV (as in step 4 above) and set `LAB_UPDATES_CSV_URL` in `index.html`. While it is empty, the page shows `labs.js` unchanged.
 
-Anyone who knows a lab's name can submit an update for it, so check the sheet from time to time; delete a bad row to undo it.
+To undo an update, untick its `Approved` box.
 
 ## Adding a new lab
 
